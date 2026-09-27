@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Apple Silicon M1 → M5 — сравнение MacBook Air и MacBook Pro</title>
+<style>
+:root{
+  --bg:#FFFFFF; --bg2:#F5F5F7; --bg3:#FAFAFC;
+  --sep:#D2D2D7; --sep-soft:#E8E8ED;
+  --txt:#1D1D1F; --txt2:#6E6E73; --txt3:#86868B;
+  --acc:#0071E3; --grn:#00A862; --org:#BF4800; --red:#C7362B;
+  --pur:#AF52DE; --cyn:#32ADE6;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#000000; --bg2:#1C1C1E; --bg3:#2C2C2E;
+    --sep:#38383A; --sep-soft:#2C2C2E;
+    --txt:#F5F5F7; --txt2:#A1A1A6; --txt3:#86868B;
+    --acc:#0A84FF; --grn:#30D158; --org:#FF9F0A; --red:#FF453A;
+    --pur:#BF5AF2; --cyn:#64D2FF;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+html,body{overflow-x:clip;max-width:100%}
+body{font-family:var(--font);font-size:16px;line-height:1.5;color:var(--txt);background:var(--bg);-webkit-font-smoothing:antialiased}
+a:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid var(--acc);outline-offset:3px;border-radius:4px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none !important;animation:none !important}}
+
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--sep-soft);padding:10px 24px}
+@media (prefers-color-scheme: dark){.nav{background:rgba(0,0,0,.75)}}
+.nav-progress{position:absolute;left:0;bottom:-1px;height:2px;width:0;background:var(--txt3);transition:width .05s linear;pointer-events:none;display:none}
+@media (min-width:1001px){.nav-progress{display:block}}
+.nav-inner{display:flex;gap:16px;align-items:center}
+.nav-brand{font-weight:600;font-size:14px;color:var(--txt);text-decoration:none;white-space:nowrap;transition:color .15s;flex-shrink:0}
+.nav-brand:hover{color:var(--acc)}
+.nav-current{flex:1;min-width:0;display:none}
+.nav-current-wrap{position:relative;display:inline-block;max-width:100%}
+.nav-current-btn{display:inline-flex;align-items:center;gap:10px;padding:8px 14px;border-radius:8px;background:var(--bg2);border:1px solid var(--sep-soft);font:inherit;font-size:13.5px;font-weight:500;color:var(--txt);cursor:pointer;transition:.15s;max-width:100%;overflow:hidden}
+.nav-current-btn:hover{background:var(--bg3);border-color:var(--sep)}
+.nav-current-btn .section-part{color:var(--txt3);font-size:12px;letter-spacing:.04em;text-transform:uppercase;font-weight:600;flex-shrink:0}
+.nav-current-btn .section-name{color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nav-current-btn .section-name::before{content:"·";margin-right:10px;color:var(--txt3)}
+.chev{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s;opacity:.55;flex-shrink:0}
+.nav-current.open .chev{transform:rotate(180deg);opacity:1}
+.nav-menu{position:absolute;top:calc(100% + 8px);left:0;background:var(--bg);border:1px solid var(--sep-soft);border-radius:14px;padding:8px;min-width:340px;max-width:calc(100vw - 32px);max-height:70vh;overflow-y:auto;box-shadow:0 20px 50px rgba(0,0,0,.15),0 2px 8px rgba(0,0,0,.05);opacity:0;pointer-events:none;transform:translateY(-4px);transition:opacity .18s,transform .18s;z-index:60}
+.nav-current.open .nav-menu{opacity:1;pointer-events:auto;transform:translateY(0)}
+.nav-menu-group{padding:10px 12px 4px;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--txt3);font-weight:600}
+.nav-menu-group:first-child{padding-top:6px}
+.nav-menu a{display:flex;gap:12px;padding:9px 12px;border-radius:8px;color:var(--txt);text-decoration:none;font-size:13.5px;transition:background .12s,color .12s}
+.nav-menu a:hover{background:var(--bg2);color:var(--acc)}
+.nav-menu a.active{background:rgba(0,113,227,.08);color:var(--acc);font-weight:600}
+@media (prefers-color-scheme: dark){.nav-menu a.active{background:rgba(10,132,255,.15)}}
+.dd-num{color:var(--txt3);font-variant-numeric:tabular-nums;font-weight:500;flex-shrink:0;width:22px;font-size:12px}
+
+.nav-actions{display:flex;gap:4px;flex-shrink:0;margin-left:auto}
+.export-wrap{position:relative}
+.btn-export{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:8px;border:1px solid var(--sep-soft);background:var(--bg2);color:var(--txt);font:inherit;font-size:13.5px;font-weight:500;cursor:pointer;transition:.15s;white-space:nowrap}
+.btn-export:hover{background:var(--bg3);border-color:var(--sep)}
+.btn-export > svg:first-child{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;color:var(--txt2)}
+.btn-export .chev{width:10px;height:10px;opacity:.7}
+.export-wrap.open .btn-export .chev{transform:rotate(180deg);opacity:1}
+.export-wrap.open .btn-export{background:var(--bg3);border-color:var(--sep)}
+.export-menu{position:absolute;top:calc(100% + 8px);right:0;background:var(--bg);border:1px solid var(--sep-soft);border-radius:12px;padding:6px;min-width:260px;box-shadow:0 20px 50px rgba(0,0,0,.15),0 2px 8px rgba(0,0,0,.05);opacity:0;pointer-events:none;transform:translateY(-4px);transition:opacity .18s,transform .18s;z-index:60}
+.export-wrap.open .export-menu{opacity:1;pointer-events:auto;transform:translateY(0)}
+.export-item{display:flex;gap:12px;align-items:center;width:100%;padding:10px 12px;border-radius:8px;border:none;background:transparent;color:var(--txt);font:inherit;font-size:13.5px;cursor:pointer;text-align:left;transition:background .12s}
+.export-item:hover{background:var(--bg2)}
+.export-item svg{width:16px;height:16px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;color:var(--txt2)}
+.export-item:hover svg{color:var(--acc)}
+.export-item .label{display:flex;flex-direction:column;gap:2px;min-width:0}
+.export-item .label strong{font-weight:600;color:var(--txt);font-size:13.5px}
+.export-item .label small{color:var(--txt3);font-size:11.5px;line-height:1.35}
+.export-sep{height:1px;background:var(--sep-soft);margin:6px 4px}
+
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:260px;background:var(--bg);border-right:1px solid var(--sep-soft);padding:24px 0 20px;overflow-y:auto;z-index:55;scrollbar-width:thin}
+.sidebar::-webkit-scrollbar{width:6px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--sep);border-radius:3px}
+.sb-group{padding:6px 24px 6px;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--txt3);font-weight:600}
+.sb-group:first-of-type{padding-top:0}
+.sb-link{display:flex;gap:10px;padding:7px 24px;color:var(--txt2);text-decoration:none;font-size:13px;line-height:1.4;transition:color .12s,background .12s;border-left:2px solid transparent}
+.sb-link:hover{color:var(--txt);background:var(--bg2)}
+.sb-link.active{color:var(--acc);font-weight:600;background:rgba(0,113,227,.06);border-left-color:var(--acc)}
+@media (prefers-color-scheme: dark){.sb-link.active{background:rgba(10,132,255,.10)}}
+.sb-num{color:var(--txt3);font-variant-numeric:tabular-nums;flex-shrink:0;width:20px;font-size:11.5px}
+.sb-link.active .sb-num{color:var(--acc)}
+
+body.has-sidebar .page{margin-left:260px;transition:margin .25s ease}
+body.has-sidebar .nav{padding-left:48px;padding-right:48px}
+body.has-sidebar .wrap{max-width:none;padding:48px 48px 88px}
+body.has-sidebar .back-top{right:24px}
+
+@media(max-width:1000px){
+  .sidebar{display:none}
+  .nav-current{display:block}
+  .nav-brand{font-size:13px}
+  body.has-sidebar .page{margin-left:0}
+  body.has-sidebar .nav{padding:10px 20px}
+  body.has-sidebar .wrap{max-width:1080px;margin:0 auto;padding:40px 24px 72px}
+  .nav-menu{position: fixed;top: 62px;left: 12px;right: 12px;width: auto;min-width: 0;max-width: none;max-height: calc(100vh - 80px);}
+}
+
+@media(max-width:700px){
+  body.has-sidebar .nav{padding:10px 16px}
+  body.has-sidebar .wrap{padding:32px 16px 64px}
+  .nav-current-btn{padding:7px 10px;font-size:12.5px}
+  .nav-current-btn .section-part{display:none}
+  .nav-current-btn .section-name::before{display:none}
+  .btn-export{padding:8px;width:38px;height:38px;justify-content:center}
+  .btn-export .export-label,.btn-export .chev{display:none}
+  .export-menu{right:0;left:auto;min-width:min(260px,calc(100vw - 32px))}
+}
+
+header{padding-bottom:28px;border-bottom:1px solid var(--sep-soft);margin-bottom:40px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--txt3);margin-bottom:10px}
+h1{font-size:clamp(30px,4.2vw,44px);font-weight:600;letter-spacing:-.03em;line-height:1.1;color:var(--txt);margin-bottom:12px}
+h1 .arrow{color:var(--txt3);font-weight:400;margin:0 6px}
+h1 .acc{color:var(--acc)}
+.subtitle{font-size:18px;line-height:1.45;color:var(--txt2);max-width:820px}
+
+.toc{background:var(--bg2);border-radius:14px;padding:22px 26px;margin-bottom:48px}
+.toc-title{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--txt3);margin-bottom:18px}
+.toc-cols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px 28px}
+.toc-group{display:flex;flex-direction:column;min-width:0}
+.toc-group-title{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--txt3);font-weight:600;margin-bottom:6px;padding-left:8px}
+.toc-group a{color:var(--txt);text-decoration:none;font-size:13.5px;padding:5px 8px;border-radius:6px;display:flex;gap:10px;align-items:baseline;transition:background .12s,color .12s;line-height:1.35}
+.toc-group a:hover{background:var(--bg3);color:var(--acc)}
+.toc-group a:hover .toc-num{color:var(--acc)}
+.toc-num{color:var(--txt3);font-variant-numeric:tabular-nums;flex-shrink:0;width:20px;font-size:12px}
+
+.block{margin-top:72px}
+.block-header{padding:24px 0;margin-bottom:32px;border-top:2px solid var(--txt);border-bottom:1px solid var(--sep-soft);display:flex;align-items:baseline;gap:16px}
+.block-num{font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--txt3);text-transform:uppercase}
+.block-name{font-size:24px;font-weight:600;letter-spacing:-.02em;color:var(--txt)}
+
+section{margin-top:56px}
+section:first-of-type{margin-top:0}
+section[id],.block{scroll-margin-top:90px}
+
+h2{font-size:clamp(22px,2.6vw,28px);font-weight:600;letter-spacing:-.02em;line-height:1.2;color:var(--txt);margin-bottom:8px}
+h2 .num{display:inline-block;color:var(--txt3);font-weight:500;margin-right:12px;font-variant-numeric:tabular-nums;font-size:.85em}
+h3{font-size:16px;font-weight:600;color:var(--txt);margin:32px 0 12px}
+h3:first-of-type{margin-top:0}
+.lead{font-size:15px;line-height:1.55;color:var(--txt2);max-width:820px;margin-bottom:20px}
+
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--sep-soft);border-radius:14px;overflow:hidden}
+.kpi{background:var(--bg);padding:26px 22px}
+.kpi .v{font-size:44px;font-weight:600;letter-spacing:-.03em;line-height:1;color:var(--txt);font-variant-numeric:tabular-nums;margin-bottom:10px;font-family:"SF Pro Display",-apple-system,sans-serif}
+.kpi .v.acc{color:var(--acc)} .kpi .v.grn{color:var(--grn)}
+.kpi .l{font-size:13px;line-height:1.45;color:var(--txt2)}
+
+.table-wrap{overflow-x:auto;border:1px solid var(--sep-soft);border-radius:14px;-webkit-overflow-scrolling:touch;max-width:100%}
+.table-wrap + .table-wrap{margin-top:16px}
+table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums;min-width:520px;max-width:100%}
+thead th{text-align:center;font-size:10.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--txt2);padding:13px 10px;border-bottom:1px solid var(--sep);background:var(--bg2);white-space:nowrap}
+tbody td{padding:11px 10px;border-bottom:1px solid var(--sep-soft);text-align:center;vertical-align:middle;line-height:1.4}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:var(--bg3)}
+td.name{font-weight:600;text-align:left;color:var(--txt);white-space:nowrap}
+td.muted{color:var(--txt2);font-size:12px;font-weight:400}
+td.hl{font-weight:600;color:var(--acc)}
+td.bar-cell{width:130px;padding:11px 12px}
+td.src{font-size:10.5px;color:var(--txt3);line-height:1.3;white-space:normal;max-width:130px}
+td.pct-video{font-weight:600;color:var(--txt)}
+td.pct-gb6{font-weight:600;color:var(--acc)}
+td.pct-est{font-weight:600;color:var(--txt2);font-style:italic}
+
+.bar{position:relative;height:6px;border-radius:99px;background:var(--sep-soft);overflow:hidden;min-width:80px}
+.bar i{position:absolute;left:0;top:0;bottom:0;border-radius:99px;display:block;background:var(--acc)}
+.bar.pur i{background:var(--pur)} .bar.cyn i{background:var(--cyn)}
+.bar.grn i{background:var(--grn)} .bar.org i{background:var(--org)} .bar.red i{background:var(--red)}
+
+td.est,.src.est{color:var(--txt2);font-style:italic}
+td.est{font-variant-numeric:tabular-nums}
+
+.how-to-read{margin:16px 0 20px;padding:16px 20px;background:var(--bg2);border-radius:12px;font-size:13.5px;line-height:1.55;color:var(--txt2)}
+.how-to-read-title{font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--txt3);margin-bottom:10px}
+.how-to-read ul{list-style:none;padding:0;margin:0}
+.how-to-read li{padding:4px 0 4px 18px;position:relative}
+.how-to-read li::before{content:"·";position:absolute;left:4px;top:4px;color:var(--txt3);font-weight:700}
+.how-to-read li strong{color:var(--txt);font-weight:600}
+
+.note-list{list-style:none;padding:0;margin:8px 0 0}
+.note-list li{padding:3px 0 3px 16px;position:relative}
+.note-list li::before{content:"·";position:absolute;left:2px;color:var(--txt3);font-weight:700}
+
+.gantt{border:1px solid var(--sep-soft);border-radius:14px;background:var(--bg);padding:22px 26px 24px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.gantt-inner{min-width:720px}
+.gantt-axis{display:grid;grid-template-columns:120px 1fr;align-items:end;padding-bottom:8px;margin-bottom:16px;border-bottom:1px solid var(--sep-soft)}
+.gantt-axis-track{position:relative;height:16px}
+.gantt-year{position:absolute;top:0;transform:translateX(-50%);font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--txt3);font-variant-numeric:tabular-nums;white-space:nowrap}
+.gantt-year.start{transform:none;color:var(--txt2)}
+.gantt-group{margin-bottom:16px}
+.gantt-group:last-child{margin-bottom:0}
+.gantt-group-title{font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--txt3);margin-bottom:8px}
+.gantt-row{display:grid;grid-template-columns:120px 1fr;align-items:center;margin-bottom:4px}
+.gantt-row-label{font-size:12.5px;font-weight:600;color:var(--txt);padding-right:14px;white-space:nowrap}
+.gantt-row-track{position:relative;height:24px;border-radius:5px;background:var(--bg3)}
+.gantt-bar{position:absolute;top:3px;height:18px;border-radius:5px;display:flex;align-items:center;padding:0 9px;overflow:hidden;font-size:11px;font-weight:500;color:#fff;white-space:nowrap;letter-spacing:-.005em;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.gantt-bar.base{background:linear-gradient(90deg, #0A84FF, #4a9bff)}
+.gantt-bar.pro{background:linear-gradient(90deg, #AF52DE, #c98bff)}
+.gantt-bar.max{background:linear-gradient(90deg, #FF453A, #FF9F0A)}
+.gantt-bar.now{background:linear-gradient(90deg, #30D158, #4ade80);color:#0b3d1e}
+
+.cores{display:flex;flex-wrap:wrap;gap:20px;align-items:center;padding:20px 24px;background:var(--bg2);border-radius:12px;margin:16px 0}
+.core-group{display:flex;align-items:center;gap:12px}
+.core-grid{display:flex;gap:4px}
+.core{width:14px;height:14px;border-radius:3px}
+.core.super{background:var(--acc)}
+.core.perf{background:var(--cyn)}
+.core.eff{background:var(--txt3)}
+.core-label{font-size:12.5px;color:var(--txt2)}
+.core-label strong{color:var(--txt);font-weight:600}
+
+.matrix td{text-align:center;padding:12px 10px}
+.matrix .dots{letter-spacing:2px;font-size:15px;font-weight:600}
+.matrix .d5,.matrix .d4{color:var(--acc)}
+.matrix .d3{color:var(--cyn)} .matrix .d2{color:var(--txt3)} .matrix .d1{color:var(--sep)}
+
+.tree{display:grid;gap:8px;margin-top:14px}
+.tree-row{display:grid;grid-template-columns:minmax(0,1fr) 40px minmax(0,1fr);gap:16px;align-items:center;padding:14px 20px;background:var(--bg2);border-radius:10px}
+.tree-task{font-weight:600;color:var(--txt);font-size:14px}
+.tree-arrow{text-align:center;color:var(--txt3);font-size:16px}
+.tree-rec{font-size:13.5px;color:var(--acc);font-weight:600}
+
+.scatter-wrap{border:1px solid var(--sep-soft);border-radius:14px;padding:20px 12px 12px;background:var(--bg);overflow-x:auto;max-width:100%}
+.scatter-wrap svg{display:block;width:100%;height:auto;max-width:100%;min-width:640px}
+svg{max-width:100%;height:auto}
+
+.compare{border:1px solid var(--sep-soft);border-radius:14px;padding:24px;background:var(--bg);max-width:100%}
+.compare-controls{display:grid;grid-template-columns:minmax(0,1fr) 40px minmax(0,1fr);gap:12px;align-items:center;margin-bottom:20px}
+.compare-select{padding:12px 14px;border:1px solid var(--sep);border-radius:10px;background:var(--bg2);color:var(--txt);font-size:14px;font-family:inherit;font-weight:500;cursor:pointer;width:100%;max-width:100%}
+.compare-select:hover{border-color:var(--txt3)}
+.compare-vs{text-align:center;font-size:13px;font-weight:600;color:var(--txt3);text-transform:uppercase;letter-spacing:.05em}
+.compare-table{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums;border:1px solid var(--sep-soft);border-radius:12px;overflow:hidden}
+.compare-table th{text-align:center;font-size:10.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--txt2);padding:12px 10px;border-bottom:1px solid var(--sep);background:var(--bg2)}
+.compare-table td{padding:12px 10px;border-bottom:1px solid var(--sep-soft);text-align:center;vertical-align:middle}
+.compare-table tr:last-child td{border-bottom:none}
+.compare-table td.param{text-align:left;font-weight:600;color:var(--txt);font-size:13px}
+.compare-table td.win{font-weight:700;color:var(--grn)}
+.compare-table td.lose{color:var(--txt2)}
+.compare-table td.equal{color:var(--txt3)}
+
+.rank{display:grid;gap:1px;background:var(--sep-soft);border:1px solid var(--sep-soft);border-radius:14px;overflow:hidden}
+.rc{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:18px;align-items:center;padding:18px 22px;background:var(--bg)}
+.rc .pos{font-size:24px;font-weight:600;color:var(--txt3);text-align:center;line-height:1;font-variant-numeric:tabular-nums}
+.rc .ttl{font-weight:600;font-size:15px;color:var(--txt);margin-bottom:4px}
+.rc .desc{font-size:13px;color:var(--txt2);line-height:1.45}
+.rc .badge{font-size:11px;padding:5px 12px;border-radius:6px;font-weight:600;background:var(--bg2);color:var(--txt2);white-space:nowrap;letter-spacing:.03em;text-transform:uppercase}
+.rc.top .badge{background:rgba(0,168,98,.10);color:var(--grn)}
+
+.note{margin-top:14px;padding:14px 18px;border-left:2px solid var(--txt);font-size:13.5px;line-height:1.5;color:var(--txt);background:var(--bg2);border-radius:0 8px 8px 0}
+.note.acc{border-left-color:var(--acc)} .note.grn{border-left-color:var(--grn)}
+.note.org{border-left-color:var(--org)} .note.red{border-left-color:var(--red)}
+.note strong{font-weight:600}
+.note.acc strong{color:var(--acc)} .note.grn strong{color:var(--grn)}
+.note.org strong{color:var(--org)} .note.red strong{color:var(--red)}
+
+.spec-grid{display:grid;gap:12px;margin-bottom:12px}
+.spec-grid.cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.spec-grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.spec{background:var(--bg2);border:1px solid var(--sep-soft);border-radius:12px;padding:20px;min-width:0;display:flex;flex-direction:column}
+.spec .model{font-size:13px;font-weight:600;color:var(--txt);margin-bottom:4px}
+.spec .chip{font-size:12px;color:var(--acc);font-weight:600;margin-bottom:10px}
+.spec .price{font-size:22px;font-weight:600;color:var(--txt);margin-bottom:6px;font-variant-numeric:tabular-nums}
+.spec .price-rub{font-size:14px;font-weight:500;color:var(--txt3);margin-left:4px;letter-spacing:-.01em}
+.spec .note-small{font-size:11.5px;color:var(--txt2);line-height:1.4;margin-top:auto}
+
+.feat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0}
+.feat{background:var(--bg2);border:1px solid var(--sep-soft);border-radius:12px;padding:20px;min-width:0}
+.feat .icon{font-size:22px;margin-bottom:10px;line-height:1}
+.feat .t{font-size:14px;font-weight:600;color:var(--txt);margin-bottom:6px}
+.feat .d{font-size:12.5px;color:var(--txt2);line-height:1.5}
+
+.back-top{position:fixed;right:24px;bottom:24px;width:46px;height:46px;border-radius:50%;background:var(--txt);color:var(--bg);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:60;box-shadow:0 6px 20px rgba(0,0,0,.2);opacity:0;pointer-events:none;transition:opacity .25s,transform .2s}
+.back-top.visible{opacity:1;pointer-events:auto}
+.back-top:hover{transform:translateY(-3px)}
+.back-top svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+
+footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--sep-soft);color:var(--txt3);font-size:12.5px;text-align:center;line-height:1.55}
+
+@media(max-width:1000px){
+  .spec-grid.cols-4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .toc-cols{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 24px}
+  .feat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+@media(max-width:800px){
+  .kpis{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .tree-row{grid-template-columns:minmax(0,1fr);gap:6px}
+  .tree-arrow{display:none}
+  .compare-controls{grid-template-columns:minmax(0,1fr);gap:8px}
+  .compare-vs{display:none}
+  table{font-size:11.5px}thead th,tbody td{padding:8px 6px}
+  td.bar-cell{width:80px}
+  .back-top{right:16px;bottom:16px;width:42px;height:42px}
+  .feat-grid{grid-template-columns:1fr}
+}
+
+@media(max-width:700px){
+  .spec-grid.cols-4,.spec-grid.cols-3{grid-template-columns:1fr}
+  .toc{padding:20px 18px}
+  .toc-cols{grid-template-columns:minmax(0,1fr);gap:16px}
+  .toc-group-title{padding-left:0}
+  .toc-group a{margin-left:-8px}
+  .gantt{padding:16px 14px 18px}
+  .gantt-inner{min-width:620px}
+  .gantt-axis,.gantt-row{grid-template-columns:88px 1fr}
+  .gantt-row-label{font-size:11.5px;padding-right:10px}
+  .gantt-bar{font-size:10px;padding:0 7px}
+}
+
+@media print{
+  @page{size:A4;margin:1.6cm}
+  html{font-size:10pt;scroll-behavior:auto}
+  body{font-size:10pt;line-height:1.45;background:#fff;color:#000}
+  body.has-sidebar .page{margin-left:0 !important}
+  .sidebar,.nav,.no-print,.back-top{display:none !important}
+  body.has-sidebar .wrap{max-width:none !important;padding:0 !important}
+  .toc{background:#F5F5F7;page-break-after:always;padding:16pt 20pt}
+  .toc-cols{grid-template-columns:repeat(4,minmax(0,1fr));gap:8pt 16pt}
+  .toc-group a{color:#000;padding:2pt 0}
+  .block{margin-top:20pt}
+  .block-header{page-break-before:auto;page-break-after:avoid;border-top-width:1.5pt}
+  section{page-break-inside:avoid;margin-top:20pt}
+  h2{page-break-after:avoid;font-size:14pt}
+  .table-wrap,.kpis,.spec-grid,.rank,.tree,.scatter-wrap,.compare,.gantt,.feat-grid{page-break-inside:avoid}
+  .spec-grid.cols-4,.spec-grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr)) !important}
+  .spec,.feat{page-break-inside:avoid;background:#fff;border:1px solid #ddd}
+  .gantt{background:#fff;border-color:#ddd;overflow:visible}
+  .gantt-inner{min-width:0}
+  table{font-size:8.5pt;min-width:0}
+  thead th{padding:6pt 4pt;font-size:7pt}
+  tbody td{padding:5pt 4pt}
+  td.bar-cell{width:90pt}
+  .kpi{padding:14pt 12pt}
+  .kpi .v{font-size:20pt}
+  .bar{height:4pt}
+  .bar i,.bar.pur i,.bar.cyn i,.bar.grn i,.bar.org i,.bar.red i{background:#333 !important}
+  .bar.pur i{background:#555 !important}
+  .bar.cyn i{background:#777 !important}
+  .bar.grn i{background:#444 !important}
+  .bar.org i{background:#666 !important}
+  .bar.red i{background:#888 !important}
+  .gantt-bar.base{background:#4a7fbf !important;color:#fff !important}
+  .gantt-bar.pro{background:#8a5cbf !important;color:#fff !important}
+  .gantt-bar.max{background:#bf5c4a !important;color:#fff !important}
+  .gantt-bar.now{background:#4a9e5c !important;color:#fff !important}
+  .rc,.spec,.kpi,.feat{background:#fff}
+  .note{background:#F5F5F7;border-left-width:1.5pt}
+  tr:hover td{background:transparent}
+  a{color:#000;text-decoration:none}
+  .scatter-wrap svg{min-width:0}
+  footer{page-break-before:avoid}
+}
+</style>
+</head>
+<body class="has-sidebar" id="top">
+
+<aside class="sidebar no-print" aria-label="Боковая навигация">
+  <div class="sb-group">Часть I · Обзор</div>
+  <a href="#models" class="sb-link"><span class="sb-num">01</span>Актуальные модели</a>
+  <a href="#timeline" class="sb-link"><span class="sb-num">02</span>Хронология</a>
+  <a href="#params" class="sb-link"><span class="sb-num">03</span>Параметры</a>
+  <a href="#features" class="sb-link"><span class="sb-num">04</span>Новые фичи</a>
+
+  <div class="sb-group">Часть II · Подсистемы</div>
+  <a href="#cpu" class="sb-link"><span class="sb-num">05</span>Процессор (CPU)</a>
+  <a href="#gpu" class="sb-link"><span class="sb-num">06</span>Графика и игры</a>
+  <a href="#bandwidth" class="sb-link"><span class="sb-num">07</span>Память</a>
+  <a href="#npu" class="sb-link"><span class="sb-num">08</span>NPU и медиа</a>
+  <a href="#ssd" class="sb-link"><span class="sb-num">09</span>Накопитель</a>
+  <a href="#fusion" class="sb-link"><span class="sb-num">10</span>Fusion</a>
+
+  <div class="sb-group">Часть III · Практика</div>
+  <a href="#prices" class="sb-link"><span class="sb-num">11</span>История цен</a>
+  <a href="#tasks" class="sb-link"><span class="sb-num">12</span>Приложения</a>
+  <a href="#llm" class="sb-link"><span class="sb-num">13</span>Локальные LLM</a>
+  <a href="#battery" class="sb-link"><span class="sb-num">14</span>Автономность</a>
+  <a href="#weight" class="sb-link"><span class="sb-num">15</span>Вес и размеры</a>
+
+  <div class="sb-group">Часть IV · Выбор</div>
+  <a href="#choose" class="sb-link"><span class="sb-num">16</span>Как выбрать</a>
+  <a href="#scatter" class="sb-link"><span class="sb-num">17</span>Мощность / цена</a>
+  <a href="#compare" class="sb-link"><span class="sb-num">18</span>Сравнение</a>
+  <a href="#matrix" class="sb-link"><span class="sb-num">19</span>Матрица</a>
+  <a href="#ranking" class="sb-link"><span class="sb-num">20</span>Рейтинг</a>
+  <a href="#rumors" class="sb-link"><span class="sb-num">21</span>Что дальше</a>
+</aside>
+
+<div class="page">
+
+<nav class="nav no-print" aria-label="Верхняя навигация">
+  <div class="nav-progress" id="nav-progress"></div>
+  <div class="nav-inner">
+    <a class="nav-brand" href="#top">Apple M</a>
+
+    <div class="nav-current" id="nav-current">
+      <div class="nav-current-wrap">
+        <button class="nav-current-btn" id="nav-current-btn" type="button" aria-haspopup="true" aria-expanded="false">
+          <span class="section-part" id="nav-current-part">Часть I</span>
+          <span class="section-name" id="nav-current-name">Актуальные модели</span>
+          <svg class="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="nav-menu" id="nav-menu">
+          <div class="nav-menu-group">Часть I · Обзор</div>
+          <a href="#models"><span class="dd-num">01</span>Актуальные модели</a>
+          <a href="#timeline"><span class="dd-num">02</span>Хронология поколений</a>
+          <a href="#params"><span class="dd-num">03</span>Что означают параметры</a>
+          <a href="#features"><span class="dd-num">04</span>Новые фичи</a>
+          <div class="nav-menu-group">Часть II · Подсистемы</div>
+          <a href="#cpu"><span class="dd-num">05</span>Процессор (CPU)</a>
+          <a href="#gpu"><span class="dd-num">06</span>Графика и игры</a>
+          <a href="#bandwidth"><span class="dd-num">07</span>Пропускная способность памяти</a>
+          <a href="#npu"><span class="dd-num">08</span>NPU и медиа</a>
+          <a href="#ssd"><span class="dd-num">09</span>Накопитель</a>
+          <a href="#fusion"><span class="dd-num">10</span>Архитектура Fusion</a>
+          <div class="nav-menu-group">Часть III · Практика</div>
+          <a href="#prices"><span class="dd-num">11</span>История цен 2020–2026</a>
+          <a href="#tasks"><span class="dd-num">12</span>Производительность в приложениях</a>
+          <a href="#llm"><span class="dd-num">13</span>Локальные языковые модели</a>
+          <a href="#battery"><span class="dd-num">14</span>Автономность</a>
+          <a href="#weight"><span class="dd-num">15</span>Вес и размеры</a>
+          <div class="nav-menu-group">Часть IV · Выбор</div>
+          <a href="#choose"><span class="dd-num">16</span>Как выбрать</a>
+          <a href="#scatter"><span class="dd-num">17</span>Мощность / цена</a>
+          <a href="#compare"><span class="dd-num">18</span>Сравнение чипов</a>
+          <a href="#matrix"><span class="dd-num">19</span>Матрица</a>
+          <a href="#ranking"><span class="dd-num">20</span>Рейтинг</a>
+          <a href="#rumors"><span class="dd-num">21</span>Что дальше: слухи</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <div class="export-wrap" id="export-wrap">
+        <button class="btn-export" id="btn-export" type="button" aria-haspopup="true" aria-expanded="false">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          <span class="export-label">Экспорт</span>
+          <svg class="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="export-menu" id="export-menu">
+          <button class="export-item" id="btn-pdf" type="button">
+            <svg viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+            <span class="label"><strong>Сохранить как PDF</strong><small>Открыть диалог печати и сохранить</small></span>
+          </button>
+          <div class="export-sep"></div>
+          <button class="export-item" id="btn-csv" type="button">
+            <svg viewBox="0 0 24 24"><path d="M9 17H7A5 5 0 0 1 7 7h2M15 7h2a5 5 0 1 1 0 10h-2M8 12h8"/></svg>
+            <span class="label"><strong>CSV — выбранные чипы</strong><small>Только два чипа из секции сравнения</small></span>
+          </button>
+          <button class="export-item" id="btn-csv-full" type="button">
+            <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+            <span class="label"><strong>CSV — все чипы</strong><small>Все конфигурации со всеми параметрами</small></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">Сравнительный анализ · Apple Silicon</p>
+  <h1>Apple Silicon <span class="acc">M1</span> <span class="arrow">→</span> <span class="acc">M5</span></h1>
+  <p class="subtitle">Сравнение MacBook Air и MacBook Pro всех поколений Apple Silicon: процессор, графика, нейропроцессор, медиадвижки, накопитель, вес, автономность, цены. За точку отсчёта принят Apple M1.</p>
+</header>
+
+<nav class="toc no-print">
+  <div class="toc-title">Содержание</div>
+  <div class="toc-cols">
+    <div class="toc-group">
+      <div class="toc-group-title">Часть I · Обзор</div>
+      <a href="#models"><span class="toc-num">01</span>Актуальные модели</a>
+      <a href="#timeline"><span class="toc-num">02</span>Хронология</a>
+      <a href="#params"><span class="toc-num">03</span>Параметры</a>
+      <a href="#features"><span class="toc-num">04</span>Новые фичи</a>
+    </div>
+    <div class="toc-group">
+      <div class="toc-group-title">Часть II · Подсистемы</div>
+      <a href="#cpu"><span class="toc-num">05</span>Процессор (CPU)</a>
+      <a href="#gpu"><span class="toc-num">06</span>Графика и игры</a>
+      <a href="#bandwidth"><span class="toc-num">07</span>Память</a>
+      <a href="#npu"><span class="toc-num">08</span>NPU и медиа</a>
+      <a href="#ssd"><span class="toc-num">09</span>Накопитель</a>
+      <a href="#fusion"><span class="toc-num">10</span>Fusion</a>
+    </div>
+    <div class="toc-group">
+      <div class="toc-group-title">Часть III · Практика</div>
+      <a href="#prices"><span class="toc-num">11</span>История цен</a>
+      <a href="#tasks"><span class="toc-num">12</span>Приложения</a>
+      <a href="#llm"><span class="toc-num">13</span>Локальные LLM</a>
+      <a href="#battery"><span class="toc-num">14</span>Автономность</a>
+      <a href="#weight"><span class="toc-num">15</span>Вес и размеры</a>
+    </div>
+    <div class="toc-group">
+      <div class="toc-group-title">Часть IV · Выбор</div>
+      <a href="#choose"><span class="toc-num">16</span>Как выбрать</a>
+      <a href="#scatter"><span class="toc-num">17</span>Мощность / цена</a>
+      <a href="#compare"><span class="toc-num">18</span>Сравнение</a>
+      <a href="#matrix"><span class="toc-num">19</span>Матрица</a>
+      <a href="#ranking"><span class="toc-num">20</span>Рейтинг</a>
+      <a href="#rumors"><span class="toc-num">21</span>Что дальше</a>
+    </div>
+  </div>
+</nav>
+
+<div class="block">
+  <div class="block-header"><span class="block-num">Часть I</span><span class="block-name">Обзор</span></div>
+
+  <section id="models">
+    <h2><span class="num">01</span>Актуальные модели</h2>
+    <p class="lead">Все конфигурации MacBook Air и MacBook Pro на Apple Silicon поколений M4 и M5. Цены — стартовые, Apple в долларах США; в рублях — по курсу 1 USD = 84 ₽ (округление до тысячи).</p>
+
+    <h3>MacBook Air</h3>
+    <div class="spec-grid cols-4">
+      <div class="spec"><div class="model">MacBook Air 13"</div><div class="chip">M4 · 10 CPU / 8–10 GPU</div><div class="price">$999 <span class="price-rub">≈ 84 000 ₽</span></div><div class="note-small">13,6" Liquid Retina · 1,24 кг · 18 ч</div></div>
+      <div class="spec"><div class="model">MacBook Air 15"</div><div class="chip">M4 · 10 CPU / 10 GPU</div><div class="price">$1,199 <span class="price-rub">≈ 101 000 ₽</span></div><div class="note-small">15,3" Liquid Retina · 1,51 кг · 18 ч</div></div>
+      <div class="spec"><div class="model">MacBook Air 13"</div><div class="chip">M5 · 10 CPU / 8–10 GPU</div><div class="price">$1,099 <span class="price-rub">≈ 92 000 ₽</span></div><div class="note-small">13,6" Liquid Retina · 1,23 кг · 18 ч</div></div>
+      <div class="spec"><div class="model">MacBook Air 15"</div><div class="chip">M5 · 10 CPU / 10 GPU</div><div class="price">$1,299 <span class="price-rub">≈ 109 000 ₽</span></div><div class="note-small">15,3" Liquid Retina · 1,51 кг · 18 ч</div></div>
+    </div>
+
+    <h3>MacBook Pro 14"</h3>
+    <div class="spec-grid cols-4">
+      <div class="spec"><div class="model">MacBook Pro 14"</div><div class="chip">M4 · 10 CPU / 10 GPU</div><div class="price">$1,599 <span class="price-rub">≈ 134 000 ₽</span></div><div class="note-small">14,2" XDR · 1,55 кг · 22 ч</div></div>
+      <div class="spec"><div class="model">MacBook Pro 14"</div><div class="chip">M5 · 10 CPU / 10 GPU</div><div class="price">$1,599 <span class="price-rub">≈ 134 000 ₽</span></div><div class="note-small">14,2" XDR · 1,55 кг · 22 ч</div></div>
+      <div class="spec"><div class="model">MacBook Pro 14"</div><div class="chip">M4 Pro · 12 CPU / 16 GPU</div><div class="price">$1,999 <span class="price-rub">≈ 168 000 ₽</span></div><div class="note-small">14,2" XDR · 1,60 кг · 22 ч</div></div>
+      <div class="spec"><div class="model">MacBook Pro 14"</div><div class="chip">M4 Pro · 14 CPU / 20 GPU</div><div class="price">$2,199 <span class="price-rub">≈ 185 000 ₽</span></div><div class="note-small">14,2" XDR · 1,60 кг · 22 ч</div></div>
+    </div>
+    <div class="spec-grid cols-3">
+      <div class="spec"><div class="model">MacBook Pro 14"</div><div class="chip">M5 Pro · 18 CPU / 16 GPU</div><div class="price">$2,199 <span class="price-rub">≈ 185 000 ₽</span></div><div class="note-small">14,2" XDR · 1,60 кг · 22 ч</div></div>
+      <div class="spec"><div class="model">MacBook Pro 14"</div><div class="chip">M4 Max · 14 CPU / 32 GPU</div><div class="price">$3,199 <span class="price-rub">≈ 269 000 ₽</span></div><div class="note-small">14,2" XDR · 1,62 кг · 24 ч</div></div>
+      <div class="spec"><div class="model">MacBook Pro 14"</div><div class="chip">M5 Max · 18 CPU / 32 GPU</div><div class="price">$3,599 <span class="price-rub">≈ 302 000 ₽</span></div><div class="note-small">14,2" XDR · 1,62 кг · 24 ч</div></div>
+    </div>
+
+    <h3>MacBook Pro 16"</h3>
+    <div class="spec-grid cols-4">
+      <div class="spec"><div class="model">MacBook Pro 16"</div><div class="chip">M4 Pro · 14 CPU / 20 GPU</div><div class="price">$2,499 <span class="price-rub">≈ 210 000 ₽</span></div><div class="note-small">16,2" XDR · 2,14 кг · 24 ч</div></div>
+      <div class="spec"><div class="model">MacBook Pro 16"</div><div class="chip">M5 Pro · 18 CPU / 20 GPU</div><div class="price">$2,699 <span class="price-rub">≈ 227 000 ₽</span></div><div class="note-small">16,2" XDR · 2,14 кг · 24 ч</div></div>
+      <div class="spec"><div class="model">MacBook Pro 16"</div><div class="chip">M4 Max · 16 CPU / 40 GPU</div><div class="price">$3,499 <span class="price-rub">≈ 294 000 ₽</span></div><div class="note-small">16,2" XDR · 2,15 кг · 24 ч</div></div>
+      <div class="spec"><div class="model">MacBook Pro 16"</div><div class="chip">M5 Max · 18 CPU / 40 GPU</div><div class="price">$3,899 <span class="price-rub">≈ 328 000 ₽</span></div><div class="note-small">16,2" XDR · 2,15 кг · 24 ч</div></div>
+    </div>
+    <div class="note acc">
+      <strong>Что это значит.</strong>
+      <ul class="note-list">
+        <li>Apple сокращает число готовых конфигураций — все Маки становятся «кастомными»</li>
+        <li>MacBook Pro 14" — пять вариантов чипа на выбор, включая базовый M5</li>
+        <li>MacBook Pro 16" — только три варианта: M4 Pro, M5 Pro, M4/M5 Max</li>
+        <li>Диапазон цен — от $999 (Air 13" M4) до $3,899 (Pro 16" M5 Max)</li>
+        <li>Рублёвые эквиваленты по курсу 84 ₽/$: от 84 000 ₽ до 328 000 ₽</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="timeline">
+    <h2><span class="num">02</span>Хронология поколений</h2>
+    <p class="lead">Каждая полоса — период, в течение которого чип был актуальной версией своей линейки: от релиза до выхода следующего поколения. Базовые, Pro и Max выходят в разное время — это видно по расположению полос.</p>
+
+    <div class="gantt">
+      <div class="gantt-inner">
+        <div class="gantt-axis">
+          <div></div>
+          <div class="gantt-axis-track">
+            <span class="gantt-year start" style="left:0">Ноя 2020</span>
+            <span class="gantt-year" style="left:2.86%">2021</span>
+            <span class="gantt-year" style="left:20%">2022</span>
+            <span class="gantt-year" style="left:37.14%">2023</span>
+            <span class="gantt-year" style="left:54.29%">2024</span>
+            <span class="gantt-year" style="left:71.43%">2025</span>
+            <span class="gantt-year" style="left:88.57%">2026</span>
+          </div>
+        </div>
+
+        <div class="gantt-group">
+          <div class="gantt-group-title">Базовая линейка · MacBook Air и Pro 14" / 16"</div>
+          <div class="gantt-row"><div class="gantt-row-label">M1</div><div class="gantt-row-track"><div class="gantt-bar base" style="left:0%;width:27.14%" title="M1 · Ноябрь 2020 → Июнь 2022 · 18 месяцев">Ноя 2020 → Июн 2022 · 18 мес</div></div></div>
+          <div class="gantt-row"><div class="gantt-row-label">M2</div><div class="gantt-row-track"><div class="gantt-bar base" style="left:27.14%;width:22.86%" title="M2 · Июнь 2022 → Октябрь 2023 · 16 месяцев">Июн 2022 → Окт 2023 · 16 мес</div></div></div>
+          <div class="gantt-row"><div class="gantt-row-label">M3</div><div class="gantt-row-track"><div class="gantt-bar base" style="left:50%;width:10%" title="M3 · Октябрь 2023 → Май 2024 · 7 месяцев">Окт 23 → Май 24</div></div></div>
+          <div class="gantt-row"><div class="gantt-row-label">M4</div><div class="gantt-row-track"><div class="gantt-bar base" style="left:60%;width:24.29%" title="M4 · Май 2024 → Октябрь 2025 · 17 месяцев">Май 2024 → Окт 2025 · 17 мес</div></div></div>
+          <div class="gantt-row"><div class="gantt-row-label">M5</div><div class="gantt-row-track"><div class="gantt-bar base now" style="left:84.29%;width:15.71%" title="M5 · Октябрь 2025 → настоящее время">Окт 2025 → н. в.</div></div></div>
+        </div>
+
+        <div class="gantt-group">
+          <div class="gantt-group-title">Pro · MacBook Pro 14" и 16"</div>
+          <div class="gantt-row"><div class="gantt-row-label">M1 Pro</div><div class="gantt-row-track"><div class="gantt-bar pro" style="left:15.71%;width:21.43%" title="M1 Pro · Октябрь 2021 → Январь 2023 · 15 месяцев">Окт 2021 → Янв 2023 · 15 мес</div></div></div>
+          <div class="gantt-row"><div class="gantt-row-label">M2 Pro</div><div class="gantt-row-track"><div class="gantt-bar pro" style="left:37.14%;width:12.86%" title="M2 Pro · Январь 2023 → Октябрь 2023 · 9 месяцев">Янв → Окт 2023 · 9 мес</div></div></div>
+          <div class="gantt-row"><div class="gantt-row-label">M3 Pro</div><div class="gantt-row-track"><div class="gantt-bar pro" style="left:50%;width:17.14%" title="M3 Pro · Октябрь 2023 → Октябрь 2024 · 12 месяцев">Окт 2023 → Окт 2024</div></div></div>
+          <div class="gantt-row"><div class="gantt-row-label">M4 Pro</div><div class="gantt-row-track"><div class="gantt-bar pro" style="left:67.14%;width:24.29%" title="M4 Pro · Октябрь 2024 → Март 2026 · 17 месяцев">Окт 2024 → Мар 2026 · 17 мес</div></div></div>
+          <div class="gantt-row"><div class="gantt-row-label">M5 Pro</div><div class="gantt-row-track"><div class="gantt-bar pro now" style="left:91.43%;width:8.57%" title="M5 Pro · Март 2026 → настоящее время">→ н. в.</div></div></div>
+        </div>
+
+        <div class="gantt-group">
+          <div class="gantt-group-title">Max · MacBook Pro 14" и 16"</div>
+          <div class="gantt-row"><div class="gantt-row-label">M1 Max</div><div class="gantt-row-track"><div class="gantt-bar max" style="left:15.71%;width:21.43%" title="M1 Max · Октябрь 2021 → Январь 2023 · 15 месяцев">Окт 2021 → Янв 2023 · 15 мес</div></div></div>
+          <div class="gantt-row"><div class="gantt-row-label">M2 Max</div><div class="gantt-row-track"><div class="gantt-bar max" style="left:37.14%;width:12.86%" title="M2 Max · Январь 2023 → Октябрь 2023 · 9 месяцев">Янв → Окт 2023 · 9 мес</div></div></div>
+          <div class="gantt-row"><div class="gantt-row-label">M3 Max</div><div class="gantt-row-track"><div class="gantt-bar max" style="left:50%;width:17.14%" title="M3 Max · Октябрь 2023 → Октябрь 2024 · 12 месяцев">Окт 2023 → Окт 2024</div></div></div>
+          <div class="gantt-row"><div class="gantt-row-label">M4 Max</div><div class="gantt-row-track"><div class="gantt-bar max" style="left:67.14%;width:24.29%" title="M4 Max · Октябрь 2024 → Март 2026 · 17 месяцев">Окт 2024 → Мар 2026 · 17 мес</div></div></div>
+          <div class="gantt-row"><div class="gantt-row-label">M5 Max</div><div class="gantt-row-track"><div class="gantt-bar max now" style="left:91.43%;width:8.57%" title="M5 Max · Март 2026 → настоящее время">→ н. в.</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>Что показывает диаграмма.</strong> Длина полосы — время между релизом чипа и выходом следующего поколения в той же линейке. <strong>M1 прожил дольше всех — 18 месяцев</strong>, а <strong>M3 — всего 7</strong> перед выходом M4. Между презентациями M2 Pro/Max и M3 Pro/Max прошло всего 9 месяцев — Apple уже практиковала быструю смену поколений.
+    </div>
+  </section>
+
+  <section id="params">
+    <h2><span class="num">03</span>Что означают параметры</h2>
+    <p class="lead">Ключевые характеристики, влияющие на производительность и повседневное использование.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Параметр</th><th>За что отвечает</th><th>Влияние</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Super-ядра</td><td>Максимальная однопоточная скорость</td><td class="muted">6 super-ядер в M5 Pro/Max — новые названия бывших performance-ядер</td></tr>
+        <tr><td class="name">Performance-ядра</td><td>Многопоточная производительность</td><td class="muted">12 ядер в M5 Pro/Max — новые названия бывших efficiency-ядер</td></tr>
+        <tr><td class="name">Efficiency-ядра</td><td>Энергоэффективные задачи</td><td class="muted">Есть в M1–M5 база, отсутствуют в M5 Pro/Max</td></tr>
+        <tr><td class="name">Ядра GPU</td><td>Графика, 3D, видеомонтаж, ML</td><td class="muted">От 8 ядер в базовом M5 до 40 в M5 Max</td></tr>
+        <tr><td class="name">Neural Accelerator</td><td>Отдельный ускоритель в каждом GPU-ядре</td><td class="muted">Новшество M5 — ускоряет ИИ-задачи до 4 раз</td></tr>
+        <tr><td class="name">Нейронный движок</td><td>Apple Intelligence, генерация изображений</td><td class="muted">16 ядер во всех чипах ноутбуков</td></tr>
+        <tr><td class="name">Медиадвижки</td><td>Кодирование и декодирование видео</td><td class="muted">H.264, HEVC, ProRes, ProRes RAW, AV1 — критично для монтажа</td></tr>
+        <tr><td class="name">Трассировка лучей</td><td>Аппаратное ускорение RT</td><td class="muted">С M3 — игры с RT, 3D-рендер</td></tr>
+        <tr><td class="name">Объединённая память</td><td>Единое пространство для CPU и GPU</td><td class="muted">От 8 ГБ в M1 до 128 ГБ в M5 Max — определяет работу с LLM</td></tr>
+        <tr><td class="name">Пропускная способность памяти</td><td>Скорость обмена CPU ↔ GPU ↔ память</td><td class="muted">68–614 ГБ/с — определяет производительность в LLM и 3D</td></tr>
+        <tr><td class="name">NAND-чипы SSD</td><td>Скорость накопителя и swap-пространства</td><td class="muted">2 чипа = 3,35 ГБ/с, 4 чипа = 6,7 ГБ/с, M5 = ≈14,5 ГБ/с</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="features">
+    <h2><span class="num">04</span>Новые фичи</h2>
+    <p class="lead">Что изменилось в MacBook Pro M5 по сравнению с M4 — помимо процессора и GPU. Внешне почти ничего, но одна важная новинка в беспроводных модулях.</p>
+    <div class="feat-grid">
+      <div class="feat"><div class="icon">📡</div><div class="t">Чип N1</div><div class="d">Собственный беспроводной модуль Apple. Впервые даёт <strong>Wi-Fi 7</strong> и <strong>Bluetooth 6.0</strong> в MacBook Pro. Наконец-то появились в Маках.</div></div>
+      <div class="feat"><div class="icon">🔌</div><div class="t">Порты без изменений</div><div class="d">Те же порты, что и в M4: HDMI, SD, MagSafe, три Thunderbolt. Ничего не добавили, ничего не убрали.</div></div>
+      <div class="feat"><div class="icon">🎨</div><div class="t">Те же два цвета</div><div class="d">Серебристый и чёрный (Space Black). Автор рекомендует серебристый — меньше пачкается.</div></div>
+      <div class="feat"><div class="icon">⌨️</div><div class="t">Раскладка</div><div class="d">Рекомендация автора — брать американскую раскладку. Она удобнее для большинства сценариев.</div></div>
+      <div class="feat"><div class="icon">🔋</div><div class="t">Автономность +1 час</div><div class="d">Заявленная автономность выросла на 1 час относительно M4: 20–22 ч для 14", 22–24 ч для 16".</div></div>
+      <div class="feat"><div class="icon">🔥</div><div class="t">Нагрев 14"</div><div class="d">По наблюдению автора, 14" M5 Pro под нагрузкой «очень сильно ревёт и греется». Он сам перешёл на 16" как основной.</div></div>
+    </div>
+    <div class="note acc">
+      <strong>Что это значит.</strong>
+      <ul class="note-list">
+        <li>N1 — первый собственный беспроводной чип Apple в Mac — даёт Wi-Fi 7 и BT 6.0</li>
+        <li>Дизайн не изменился с 2021 года — те же порты и цвета</li>
+        <li>Автономность выросла, но незначительно — на 1 час</li>
+        <li>14" M5 Pro греется заметно сильнее 16" — это важно при выборе размера</li>
+        <li>Для работы под нагрузкой автор рекомендует именно 16" MacBook Pro</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<div class="block">
+  <div class="block-header"><span class="block-num">Часть II</span><span class="block-name">Подсистемы</span></div>
+
+  <section id="cpu">
+    <h2><span class="num">05</span>Процессор (CPU)</h2>
+    <p class="lead">CPU в Apple Silicon: от M1 до M5. Точка отсчёта — M1 (8 ядер, 100%). Проценты — из авторского обзора; GB6 — из публичных баз. Только чипы MacBook.</p>
+    <div class="cores">
+      <div class="core-group"><div class="core-grid">
+        <span class="core super"></span><span class="core super"></span><span class="core super"></span>
+        <span class="core super"></span><span class="core super"></span><span class="core super"></span>
+      </div><span class="core-label"><strong>Super × 6</strong> — бывшие Performance</span></div>
+      <div class="core-group"><div class="core-grid">
+        <span class="core perf"></span><span class="core perf"></span><span class="core perf"></span>
+        <span class="core perf"></span><span class="core perf"></span><span class="core perf"></span>
+        <span class="core perf"></span><span class="core perf"></span><span class="core perf"></span>
+        <span class="core perf"></span><span class="core perf"></span><span class="core perf"></span>
+      </div><span class="core-label"><strong>Performance × 12</strong> — бывшие Efficiency</span></div>
+    </div>
+    <div class="how-to-read">
+      <div class="how-to-read-title">Как читать таблицу</div>
+      <ul>
+        <li><strong>% от M1 (видео)</strong> — авторская методика из обзора</li>
+        <li><strong>GB6 / M1</strong> — чистый Geekbench 6 Multi-Core</li>
+        <li><strong>Шкала</strong> — визуализация GB6</li>
+        <li><strong>≈</strong> — оценка</li>
+      </ul>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Чип · конфигурация</th><th>Ядра</th><th>Состав</th><th>% от M1 (видео)</th><th>GB6 MC</th><th>GB6 / M1</th><th>Шкала</th><th>Источник</th></tr></thead>
+      <tbody>
+        <tr><td class="name">M1</td><td>8</td><td>4P + 4E</td><td class="pct-video">100%</td><td>8 342</td><td class="pct-gb6">100%</td><td class="bar-cell"><div class="bar"><i style="width:29%"></i></div></td><td class="src">Обзор + Geekbench</td></tr>
+        <tr><td class="name">M2</td><td>8</td><td>4P + 4E</td><td class="pct-video">120%</td><td>9 709</td><td class="pct-gb6">116%</td><td class="bar-cell"><div class="bar"><i style="width:33%"></i></div></td><td class="src">Обзор + Geekbench</td></tr>
+        <tr><td class="name">M3</td><td>8</td><td>4P + 4E</td><td class="pct-video">140%</td><td>12 020</td><td class="pct-gb6">144%</td><td class="bar-cell"><div class="bar"><i style="width:41%"></i></div></td><td class="src">Обзор + Geekbench</td></tr>
+        <tr><td class="name">M1 Pro</td><td>10</td><td>8P + 2E</td><td class="pct-video muted">—</td><td>10 897</td><td class="pct-gb6">131%</td><td class="bar-cell"><div class="bar"><i style="width:37%"></i></div></td><td class="src">Geekbench</td></tr>
+        <tr><td class="name">M1 Max</td><td>10</td><td>8P + 2E</td><td class="pct-video muted">—</td><td>13 098</td><td class="pct-gb6">157%</td><td class="bar-cell"><div class="bar"><i style="width:45%"></i></div></td><td class="src">Geekbench</td></tr>
+        <tr><td class="name">M2 Pro</td><td>12</td><td>10P + 4E</td><td class="pct-video muted">—</td><td>14 880</td><td class="pct-gb6">178%</td><td class="bar-cell"><div class="bar"><i style="width:51%"></i></div></td><td class="src">Geekbench</td></tr>
+        <tr><td class="name">M2 Max</td><td>12</td><td>12P + 4E</td><td class="pct-video muted">—</td><td>14 740</td><td class="pct-gb6">177%</td><td class="bar-cell"><div class="bar"><i style="width:50%"></i></div></td><td class="src">Geekbench</td></tr>
+        <tr><td class="name">M3 Pro</td><td>12</td><td>6P + 6E</td><td class="pct-video muted">—</td><td>15 173</td><td class="pct-gb6">182%</td><td class="bar-cell"><div class="bar"><i style="width:52%"></i></div></td><td class="src">Geekbench</td></tr>
+        <tr><td class="name">M3 Max</td><td>16</td><td>12P + 4E</td><td class="pct-video muted">—</td><td>20 463</td><td class="pct-gb6">245%</td><td class="bar-cell"><div class="bar"><i style="width:70%"></i></div></td><td class="src">Geekbench</td></tr>
+        <tr><td class="name">M4</td><td>10</td><td>4P + 6E</td><td class="pct-video">200%</td><td>14 731</td><td class="pct-gb6">177%</td><td class="bar-cell"><div class="bar"><i style="width:50%"></i></div></td><td class="src">Обзор + Geekbench</td></tr>
+        <tr><td class="name">M4 Pro (12/16)</td><td>12</td><td>8P + 4E</td><td class="pct-video">225%</td><td>22 490</td><td class="pct-gb6">270%</td><td class="bar-cell"><div class="bar"><i style="width:77%"></i></div></td><td class="src">Обзор + MacRumors</td></tr>
+        <tr><td class="name">M5</td><td>10</td><td>4P + 6E</td><td class="pct-video">235%</td><td>17 073</td><td class="pct-gb6">205%</td><td class="bar-cell"><div class="bar"><i style="width:58%"></i></div></td><td class="src">Обзор + Geekbench</td></tr>
+        <tr><td class="name">M4 Pro (14/20)</td><td>14</td><td>10P + 4E</td><td class="pct-video">245%</td><td class="est">≈ 22 490</td><td class="pct-gb6 est">≈ 270%</td><td class="bar-cell"><div class="bar"><i style="width:77%"></i></div></td><td class="src est">Обзор + оценка</td></tr>
+        <tr><td class="name">M4 Max (14/32)</td><td>14</td><td>10P + 4E</td><td class="pct-video">270%</td><td>25 702</td><td class="pct-gb6">308%</td><td class="bar-cell"><div class="bar"><i style="width:88%"></i></div></td><td class="src">Обзор + MacRumors</td></tr>
+        <tr><td class="name">M4 Max (16/40)</td><td>16</td><td>12P + 4E</td><td class="pct-video">295%</td><td>25 702</td><td class="pct-gb6">308%</td><td class="bar-cell"><div class="bar"><i style="width:88%"></i></div></td><td class="src">Обзор + MacRumors</td></tr>
+        <tr><td class="name">M5 Pro (18/16)</td><td>18</td><td>6 super + 12 perf</td><td class="pct-video">300%</td><td>28 111</td><td class="pct-gb6">337%</td><td class="bar-cell"><div class="bar"><i style="width:96%"></i></div></td><td class="src">Обзор + Geekbench</td></tr>
+        <tr><td class="name">M5 Pro (18/20)</td><td>18</td><td>6 super + 12 perf</td><td class="pct-video">311%</td><td>28 111</td><td class="pct-gb6">337%</td><td class="bar-cell"><div class="bar"><i style="width:96%"></i></div></td><td class="src">Обзор + Geekbench</td></tr>
+        <tr><td class="name">M5 Max (18/32)</td><td>18</td><td>6 super + 12 perf</td><td class="pct-video">337%</td><td>29 233</td><td class="pct-gb6">351%</td><td class="bar-cell"><div class="bar"><i style="width:100%"></i></div></td><td class="src">Обзор + MacRumors</td></tr>
+        <tr><td class="name">M5 Max (18/40)</td><td>18</td><td>6 super + 12 perf</td><td class="pct-video">337%</td><td>29 233</td><td class="pct-gb6">351%</td><td class="bar-cell"><div class="bar"><i style="width:100%"></i></div></td><td class="src">Обзор + MacRumors</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note acc"><strong>Почему цифры расходятся.</strong> Чем новее чип, тем сильнее разница между методикой видео и Geekbench: авторская методика включает графику, NPU и медиадвижки, а Geekbench 6 Multi-Core — только CPU.</div>
+    <div class="note acc">
+      <strong>Что это значит.</strong>
+      <ul class="note-list">
+        <li>За пять поколений CPU вырос в 3,5 раза (100% → 351% по GB6)</li>
+        <li>M5 Max 18-ядер = <strong>337% от M1</strong> — самый быстрый чип среди всех MacBook</li>
+        <li>M5 Pro (20 GPU) = 311%, M5 Pro (16 GPU) = 300% — на уровне топовых предыдущих поколений</li>
+        <li>Базовый M4 (10 ядер) обгоняет M3 Max (16 ядер) — архитектура важнее числа ядер</li>
+        <li>Внутри одной линейки Pro и Max почти не отличаются по CPU: разница 4%</li>
+        <li>M5 Pro превосходит M4 Max по многопоточной производительности — редкий случай</li>
+        <li>Apple рекомендует топовый CPU для кодинга — критично для Xcode и компиляции</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="gpu">
+    <h2><span class="num">06</span>Графика и игры</h2>
+    <p class="lead">Графика — самая быстрорастущая подсистема Apple Silicon. Точка отсчёта — M1 (7–8 ядер GPU). Только чипы MacBook. Отдельный блок внизу — реальные игры с трассировкой лучей.</p>
+    <div class="how-to-read">
+      <div class="how-to-read-title">Как читать таблицу</div>
+      <ul>
+        <li><strong>% от M1 (видео)</strong> — цифры из обзора, включая игры с RT</li>
+        <li><strong>GB7 / M1</strong> — расчёт по Geekbench 7 Metal</li>
+        <li><strong>Шкала</strong> — визуализация GB7 относительно M5 Max 40 GPU</li>
+        <li><strong>≈</strong> — оценка по пропорции GPU-ядер</li>
+      </ul>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Чип · конфигурация</th><th>Ядра GPU</th><th>% от M1 (видео)</th><th>GB7 Metal</th><th>GB7 / M1</th><th>Шкала</th><th>Источник</th></tr></thead>
+      <tbody>
+        <tr><td class="name">M1</td><td>7–8</td><td class="pct-video">100%</td><td>27 277</td><td class="pct-gb6">100%</td><td class="bar-cell"><div class="bar pur"><i style="width:12%"></i></div></td><td class="src">Обзор + Geekbench</td></tr>
+        <tr><td class="name">M2</td><td>8–10</td><td class="pct-video">130%</td><td>40 529</td><td class="pct-gb6">149%</td><td class="bar-cell"><div class="bar pur"><i style="width:18%"></i></div></td><td class="src">Обзор + Geekbench</td></tr>
+        <tr><td class="name">M3</td><td>10</td><td class="pct-video">160%</td><td>46 033</td><td class="pct-gb6">169%</td><td class="bar-cell"><div class="bar pur"><i style="width:20%"></i></div></td><td class="src">Обзор + Geekbench</td></tr>
+        <tr><td class="name">M1 Pro</td><td>14–16</td><td class="pct-video muted">—</td><td>63 531</td><td class="pct-gb6">233%</td><td class="bar-cell"><div class="bar pur"><i style="width:28%"></i></div></td><td class="src">MacRumors</td></tr>
+        <tr><td class="name">M1 Max</td><td>24–32</td><td class="pct-video muted">—</td><td>107 711</td><td class="pct-gb6">395%</td><td class="bar-cell"><div class="bar pur"><i style="width:48%"></i></div></td><td class="src">MacRumors</td></tr>
+        <tr><td class="name">M2 Pro</td><td>16–19</td><td class="pct-video muted">—</td><td>77 176</td><td class="pct-gb6">283%</td><td class="bar-cell"><div class="bar pur"><i style="width:34%"></i></div></td><td class="src">MacRumors</td></tr>
+        <tr><td class="name">M2 Max</td><td>30–38</td><td class="pct-video muted">—</td><td>130 091</td><td class="pct-gb6">477%</td><td class="bar-cell"><div class="bar pur"><i style="width:58%"></i></div></td><td class="src">MacRumors</td></tr>
+        <tr><td class="name">M3 Pro</td><td>18</td><td class="pct-video muted">—</td><td>72 637</td><td class="pct-gb6">266%</td><td class="bar-cell"><div class="bar pur"><i style="width:32%"></i></div></td><td class="src">MacRumors</td></tr>
+        <tr><td class="name">M3 Max</td><td>30–40</td><td class="pct-video">455%</td><td>146 550</td><td class="pct-gb6">537%</td><td class="bar-cell"><div class="bar pur"><i style="width:65%"></i></div></td><td class="src">Обзор + MacRumors</td></tr>
+        <tr><td class="name">M4</td><td>10</td><td class="pct-video">200%</td><td>51 818</td><td class="pct-gb6">190%</td><td class="bar-cell"><div class="bar pur"><i style="width:23%"></i></div></td><td class="src">Обзор + Geekbench</td></tr>
+        <tr><td class="name">M4 Pro (12/16)</td><td>16</td><td class="pct-video">380%</td><td>107 354</td><td class="pct-gb6">394%</td><td class="bar-cell"><div class="bar pur"><i style="width:48%"></i></div></td><td class="src">Обзор + MacRumors</td></tr>
+        <tr><td class="name">M4 Pro (14/20)</td><td>20</td><td class="pct-video">410%</td><td class="est">≈ 134 000</td><td class="pct-gb6 est">≈ 491%</td><td class="bar-cell"><div class="bar pur"><i style="width:59%"></i></div></td><td class="src est">Обзор + оценка</td></tr>
+        <tr><td class="name">M5 (8 GPU)</td><td>8</td><td class="pct-video">220%</td><td class="est">≈ 56 000</td><td class="pct-gb6 est">≈ 205%</td><td class="bar-cell"><div class="bar pur"><i style="width:25%"></i></div></td><td class="src est">Обзор + оценка</td></tr>
+        <tr><td class="name">M5 (10 GPU)</td><td>10</td><td class="pct-video">220%</td><td>69 563</td><td class="pct-gb6">255%</td><td class="bar-cell"><div class="bar pur"><i style="width:31%"></i></div></td><td class="src">Обзор + Geekbench</td></tr>
+        <tr><td class="name">M4 Max (14/32)</td><td>32</td><td class="pct-video">630%</td><td class="est">≈ 151 000</td><td class="pct-gb6 est">≈ 554%</td><td class="bar-cell"><div class="bar pur"><i style="width:67%"></i></div></td><td class="src est">Обзор + оценка</td></tr>
+        <tr><td class="name">M4 Max (16/40)</td><td>40</td><td class="pct-video">780%</td><td>189 301</td><td class="pct-gb6">694%</td><td class="bar-cell"><div class="bar pur"><i style="width:84%"></i></div></td><td class="src">Обзор + MacRumors</td></tr>
+        <tr><td class="name">M5 Pro (18/16)</td><td>16</td><td class="pct-video">411%</td><td class="est">≈ 105 000</td><td class="pct-gb6 est">≈ 385%</td><td class="bar-cell"><div class="bar pur"><i style="width:47%"></i></div></td><td class="src est">Обзор + оценка</td></tr>
+        <tr><td class="name">M5 Pro (18/20)</td><td>20</td><td class="pct-video">460%</td><td>130 896</td><td class="pct-gb6">480%</td><td class="bar-cell"><div class="bar pur"><i style="width:58%"></i></div></td><td class="src">Обзор + Geekbench</td></tr>
+        <tr><td class="name">M5 Max (18/32)</td><td>32</td><td class="pct-video">629%</td><td class="est">≈ 180 000</td><td class="pct-gb6 est">≈ 660%</td><td class="bar-cell"><div class="bar pur"><i style="width:80%"></i></div></td><td class="src est">Обзор + оценка</td></tr>
+        <tr><td class="name">M5 Max (18/40)</td><td>40</td><td class="pct-video">776%</td><td>225 606</td><td class="pct-gb6">827%</td><td class="bar-cell"><div class="bar pur"><i style="width:100%"></i></div></td><td class="src">Обзор + Geekbench</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note acc">
+      <strong>Что это значит.</strong>
+      <ul class="note-list">
+        <li>GPU вырос почти в 8 раз за пять поколений — вдвое быстрее CPU</li>
+        <li>M5 Max 40 GPU = 776% — самое быстрое GPU среди всех чипов MacBook</li>
+        <li>M5 Pro 20 GPU (460%) обгоняет M3 Max (455%) — рекорд внутри ноутбуков</li>
+        <li>M5 Pro и M5 Max обгоняют предшественников на 10–25% по синтетике</li>
+        <li>Синтетика Geekbench 7 обновилась — старые результаты напрямую не сравнимы</li>
+        <li>Для игр важнее GPU + медиадвижки + память; CPU вторичен</li>
+      </ul>
+    </div>
+
+    <h3>Игры с трассировкой лучей</h3>
+    <p class="lead">Автор протестировал игры с RT на M5 Max — Apple обещала прирост в RT 30–35%. Тесты на максимальном разрешении и максимальных настройках.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Игра</th><th>M5 Max</th><th>Прирост vs M4 Max</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Resident Evil (max, с RT)</td><td class="hl">до 120 fps</td><td>—</td></tr>
+        <tr><td class="name">Frostpunk 2 (max)</td><td class="hl">стабильно</td><td>+30–50%</td></tr>
+        <tr><td class="name">Cyberpunk 2077 (RT, max)</td><td class="hl">40–50 fps</td><td>+30–40 fps</td></tr>
+        <tr><td class="name">Cyberpunk 2077 (Metal, без RT)</td><td class="hl">50–60 fps</td><td>+10 fps к RT-режиму</td></tr>
+        <tr><td class="name">Assassin's Creed</td><td class="hl">стабильно</td><td>+10 fps к базовому</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note grn">
+      <strong>Что это значит.</strong>
+      <ul class="note-list">
+        <li>RT-прирост соответствует обещанным Apple 30–35%</li>
+        <li>Resident Evil до 120 fps — на уровне игровых консолей</li>
+        <li>Cyberpunk 2077 впервые играбелен с RT на Mac: 40–50 fps</li>
+        <li>Без RT +10 fps к тому же результату</li>
+        <li>Игровые хабы для Windows-игр пока работают слабо, но автор ждёт улучшений</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="bandwidth">
+    <h2><span class="num">07</span>Пропускная способность памяти</h2>
+    <p class="lead">Определяет, как быстро CPU, GPU и NPU обмениваются данными с объединённой памятью. Критично для LLM, 3D-рендера, работы с большими текстурами.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Чип</th><th>ГБ/с</th><th>Шкала</th><th>Примечание</th></tr></thead>
+      <tbody>
+        <tr><td class="name">M1</td><td>68</td><td class="bar-cell"><div class="bar cyn"><i style="width:11%"></i></div></td><td class="muted">базовое значение</td></tr>
+        <tr><td class="name">M2</td><td>100</td><td class="bar-cell"><div class="bar cyn"><i style="width:16%"></i></div></td><td class="muted">—</td></tr>
+        <tr><td class="name">M4</td><td>120</td><td class="bar-cell"><div class="bar cyn"><i style="width:20%"></i></div></td><td class="muted">—</td></tr>
+        <tr><td class="name">M5</td><td>153</td><td class="bar-cell"><div class="bar cyn"><i style="width:25%"></i></div></td><td class="muted">—</td></tr>
+        <tr><td class="name">M4 Pro</td><td>273</td><td class="bar-cell"><div class="bar cyn"><i style="width:44%"></i></div></td><td class="muted">—</td></tr>
+        <tr><td class="name">M5 Pro</td><td>307</td><td class="bar-cell"><div class="bar cyn"><i style="width:50%"></i></div></td><td class="muted">+12% к M4 Pro</td></tr>
+        <tr><td class="name">M4 Max (32 GPU)</td><td>410</td><td class="bar-cell"><div class="bar cyn"><i style="width:67%"></i></div></td><td class="muted">—</td></tr>
+        <tr><td class="name">M5 Max (32 GPU)</td><td>460</td><td class="bar-cell"><div class="bar cyn"><i style="width:75%"></i></div></td><td class="muted">+12%</td></tr>
+        <tr><td class="name">M4 Max (40 GPU)</td><td>546</td><td class="bar-cell"><div class="bar cyn"><i style="width:89%"></i></div></td><td class="muted">—</td></tr>
+        <tr><td class="name">M5 Max (40 GPU)</td><td>614</td><td class="bar-cell"><div class="bar cyn"><i style="width:100%"></i></div></td><td class="muted">+12,5% к M4 Max</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note acc">
+      <strong>Что это значит.</strong>
+      <ul class="note-list">
+        <li>За пять поколений пропускная способность выросла в 9 раз: с 68 до 614 ГБ/с</li>
+        <li>Внутри поколения M5 разброс огромный — от 153 до 614 ГБ/с (4×)</li>
+        <li>Именно пропускная способность определяет, запустится ли конкретная LLM</li>
+        <li>Модели 70B требуют минимум 400 ГБ/с — только M4/M5 Max справятся</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="npu">
+    <h2><span class="num">08</span>Нейронный движок и медиадвижки</h2>
+    <p class="lead">NPU одинаков внутри всей линейки M5 — 16 ядер на всех чипах. Медиадвижки отличаются: базовые чипы имеют один блок, Pro и Max — два. Только чипы MacBook.</p>
+    <div class="how-to-read">
+      <div class="how-to-read-title">Как читать таблицу</div>
+      <ul>
+        <li><strong>NPU %</strong> — процент от M1 по нейронным задачам</li>
+        <li><strong>Медиа %</strong> — процент от M1 по видео</li>
+        <li><strong>Шкала</strong> — визуализация каждого столбца отдельно</li>
+        <li><strong>≈</strong> — оценка. Точные цифры в обзоре есть только для NPU M1–M5 и медиа M4/M5 Max</li>
+      </ul>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Чип</th><th>NPU %</th><th>Шкала NPU</th><th>Медиа %</th><th>Шкала Медиа</th></tr></thead>
+      <tbody>
+        <tr><td class="name">M1</td><td>100%</td><td class="bar-cell"><div class="bar grn"><i style="width:24%"></i></div></td><td class="pct-est">≈100%</td><td class="bar-cell"><div class="bar org"><i style="width:9%"></i></div></td></tr>
+        <tr><td class="name">M2</td><td>140%</td><td class="bar-cell"><div class="bar grn"><i style="width:33%"></i></div></td><td class="pct-est">≈130%</td><td class="bar-cell"><div class="bar org"><i style="width:12%"></i></div></td></tr>
+        <tr><td class="name">M3</td><td>220%</td><td class="bar-cell"><div class="bar grn"><i style="width:52%"></i></div></td><td class="pct-est">≈150%</td><td class="bar-cell"><div class="bar org"><i style="width:13%"></i></div></td></tr>
+        <tr><td class="name">M4</td><td>320%</td><td class="bar-cell"><div class="bar grn"><i style="width:76%"></i></div></td><td class="pct-est">≈200%</td><td class="bar-cell"><div class="bar org"><i style="width:18%"></i></div></td></tr>
+        <tr><td class="name">M5 (base)</td><td>420%</td><td class="bar-cell"><div class="bar grn"><i style="width:100%"></i></div></td><td class="pct-est">≈250%</td><td class="bar-cell"><div class="bar org"><i style="width:22%"></i></div></td></tr>
+        <tr><td class="name">M5 Pro</td><td>420%</td><td class="bar-cell"><div class="bar grn"><i style="width:100%"></i></div></td><td class="pct-est">≈1120%</td><td class="bar-cell"><div class="bar org"><i style="width:100%"></i></div></td></tr>
+        <tr><td class="name">M4 Max</td><td>320%</td><td class="bar-cell"><div class="bar grn"><i style="width:76%"></i></div></td><td>≈896%</td><td class="bar-cell"><div class="bar org"><i style="width:80%"></i></div></td></tr>
+        <tr><td class="name">M5 Max</td><td>420%</td><td class="bar-cell"><div class="bar grn"><i style="width:100%"></i></div></td><td>1120%</td><td class="bar-cell"><div class="bar org"><i style="width:100%"></i></div></td></tr>
+      </tbody>
+    </table></div>
+    <div class="note grn"><strong>Практический результат.</strong> Экспорт 20-минутного ProRes-проекта: 8 минут 14 секунд на M5 Max против 8 минут 43 секунд на M4 Max. При одном медиадвижке M5 опережает M4 и в 3–3,2 раза превосходит M1, M2 и M3.</div>
+    <div class="note grn">
+      <strong>Что это значит.</strong>
+      <ul class="note-list">
+        <li>NPU за пять поколений вырос в 4,2 раза (100% → 420%)</li>
+        <li>Нейронный движок одинаков во всей линейке M5: M5, M5 Pro и M5 Max — все 420%</li>
+        <li>Медиадвижки: один блок у базовых чипов, два блока у Pro и Max</li>
+        <li>M5 Max = 1120% от M1, M4 Max = <strong>≈896%</strong> (+25% за год)</li>
+        <li>M5 Max — рекорд по медиа среди всех MacBook</li>
+        <li>Для монтажа и экспорта медиадвижки важнее CPU или GPU</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="ssd">
+    <h2><span class="num">09</span>Накопитель</h2>
+    <p class="lead">Скорость определяется числом NAND-чипов и поколением контроллера. В поколении M5 произошла смена контроллера и переход на PCIe 5.0.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Конфигурация</th><th>NAND-чипы</th><th>Скорость</th><th>Примечание</th></tr></thead>
+      <tbody>
+        <tr><td class="name">512 ГБ (M1–M4)</td><td>2</td><td>≈3,35 ГБ/с</td><td class="muted">базовые конфигурации</td></tr>
+        <tr><td class="name">2 ТБ (M1–M4)</td><td>4</td><td>6,7 ГБ/с</td><td class="muted">удвоение скорости</td></tr>
+        <tr><td class="name">M5 / M5 Pro / M5 Max</td><td>—</td><td>≈14,5 ГБ/с</td><td class="muted">PCIe 5.0, ×2–2,5 к предшественникам</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note grn">
+      <strong>Что это значит.</strong>
+      <ul class="note-list">
+        <li>Скорость SSD за пять поколений выросла в 4,3 раза: с 3,35 до ≈14,5 ГБ/с</li>
+        <li>Число NAND-чипов определяет скорость: 2 чипа = 3,35 ГБ/с, 4 чипа = 6,7 ГБ/с</li>
+        <li>Скачок M5 — одномоментный: смена контроллера + переход на PCIe 5.0</li>
+        <li>Скорость SSD критична для swap-файла при нехватке RAM</li>
+        <li>Рекомендация автора: минимум 2 ТБ SSD и 36 ГБ объединённой памяти</li>
+        <li>M5 Pro начинается с 1 ТБ (было 512 ГБ), M5 Max — с 2 ТБ (было 1 ТБ)</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="fusion">
+    <h2><span class="num">10</span>Архитектура Fusion</h2>
+    <p class="lead">M5 Pro и M5 Max — первые чипы Apple, использующие архитектуру Fusion: два отдельных 3-нм кристалла, соединённых высокоскоростной шиной с низкой задержкой. На одном — CPU, на другом — GPU.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Предыдущее (M1–M4)</th><th>Текущее (M5 Pro / M5 Max)</th></tr></thead>
+      <tbody>
+        <tr><td class="muted">Единый кристалл: CPU, GPU, NPU, шина памяти</td><td>Два отдельных кристалла, соединены высокоскоростной шиной</td></tr>
+        <tr><td class="muted">Рост площади кристалла увеличивает долю брака</td><td>Уменьшенные кристаллы снижают долю брака</td></tr>
+        <tr><td class="muted">Масштабирование целиком</td><td>Независимое масштабирование CPU и GPU</td></tr>
+        <tr><td class="muted">Performance + Efficiency ядра</td><td>6 super-ядер (бывшие Performance) + 12 performance-ядер (бывшие Efficiency)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note acc">
+      <strong>Что это значит.</strong>
+      <ul class="note-list">
+        <li>Fusion — первая смена архитектуры Apple Silicon с 2020 года</li>
+        <li>Два кристалла соединены высокоскоростной шиной с низкой задержкой</li>
+        <li>Меньший размер кристаллов = меньше брака, дешевле масштабировать</li>
+        <li>CPU и GPU масштабируются независимо: можно увеличить GPU, не трогая CPU</li>
+        <li>Ядра переименованы: бывшие Performance → Super, бывшие Efficiency → Performance</li>
+        <li>Это объясняет, почему M5 Pro по CPU не уступает M5 Max, а по GPU может сильно отставать</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<div class="block">
+  <div class="block-header"><span class="block-num">Часть III</span><span class="block-name">Практика</span></div>
+
+  <section id="prices">
+    <h2><span class="num">11</span>История цен 2020–2026</h2>
+    <p class="lead">Эволюция цен и минимальных конфигураций за пять лет — от M1 (2020) до M5 (2026). Показывает, как менялись стартовые цены и базовая память внутри каждой линейки.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Модель</th><th>Чип</th><th>Дата</th><th>Стартовая цена</th><th>Мин. SSD</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Air 13"</td><td>M1</td><td>Ноябрь 2020</td><td>$999 <span class="muted">≈ 84 000 ₽</span></td><td>256 ГБ</td></tr>
+        <tr><td class="name">Pro 13"</td><td>M1</td><td>Ноябрь 2020</td><td>$1,299 <span class="muted">≈ 109 000 ₽</span></td><td>256 ГБ</td></tr>
+        <tr><td class="name">Pro 14" / 16"</td><td>M1 Pro / M1 Max</td><td>Октябрь 2021</td><td>$1,999 <span class="muted">≈ 168 000 ₽</span></td><td>512 ГБ</td></tr>
+        <tr><td class="name">Air 13"</td><td>M2</td><td>Июнь 2022</td><td>$1,199 <span class="muted">≈ 101 000 ₽</span></td><td>256 ГБ</td></tr>
+        <tr><td class="name">Pro 14" / 16"</td><td>M2 Pro / M2 Max</td><td>Январь 2023</td><td>$1,999 <span class="muted">≈ 168 000 ₽</span></td><td>512 ГБ</td></tr>
+        <tr><td class="name">Air 13" / 15"</td><td>M2</td><td>Июнь 2023</td><td>$1,099 / $1,299 <span class="muted">≈ 92 000 / 109 000 ₽</span></td><td>256 ГБ</td></tr>
+        <tr><td class="name">Pro 14" / 16"</td><td>M3 / M3 Pro / M3 Max</td><td>Октябрь 2023</td><td>$1,599 <span class="muted">≈ 134 000 ₽</span></td><td>512 ГБ</td></tr>
+        <tr><td class="name">Air 13" / 15"</td><td>M3</td><td>Март 2024</td><td>$1,099 / $1,299 <span class="muted">≈ 92 000 / 109 000 ₽</span></td><td>256 ГБ</td></tr>
+        <tr><td class="name">Pro 14" / 16"</td><td>M4 / M4 Pro / M4 Max</td><td>Октябрь 2024</td><td>$1,599 <span class="muted">≈ 134 000 ₽</span></td><td>512 ГБ</td></tr>
+        <tr><td class="name">Air 13" / 15"</td><td>M4</td><td>Март 2025</td><td>$999 / $1,199 <span class="muted">≈ 84 000 / 101 000 ₽</span></td><td>256 ГБ</td></tr>
+        <tr><td class="name">Pro 14"</td><td>M5</td><td>Октябрь 2025</td><td>$1,599 <span class="muted">≈ 134 000 ₽</span></td><td>512 ГБ</td></tr>
+        <tr><td class="name">Air 13" / 15"</td><td>M5</td><td>Март 2026</td><td>$1,099 / $1,299 <span class="muted">≈ 92 000 / 109 000 ₽</span></td><td>512 ГБ</td></tr>
+        <tr><td class="name">Pro 14" / 16"</td><td>M5 Pro / M5 Max</td><td>Март 2026</td><td>$2,199 / $3,599 <span class="muted">≈ 185 000 / 302 000 ₽</span></td><td>1 ТБ / 2 ТБ</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note org">
+      <strong>Что это значит.</strong>
+      <ul class="note-list">
+        <li>Диапазон стартовых цен за пять лет почти не изменился: от $999 до $3,899</li>
+        <li>Базовые модели держат цену: Air 13" M1 и M4 — оба $999; Pro 14" M4 и M5 — оба $1,599</li>
+        <li>Минимальный SSD вырос: Air M5 с 512 ГБ (было 256), Pro M5 Pro с 1 ТБ (было 512)</li>
+        <li>Старшая линейка подорожала: M5 Pro/Max — $2,199/$3,599 против $1,999/$3,199 у M4</li>
+        <li>Автор: «Цены как будто выросли, но на самом деле упали — просто нет низших конфигураций»</li>
+        <li>Рублёвый эквивалент — от 84 000 ₽ до 302 000 ₽ по курсу 84 ₽/$</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="tasks">
+    <h2><span class="num">12</span>Производительность в приложениях</h2>
+    <p class="lead">Два независимых блока данных. Первый — из авторского обзора (M4 Pro, M4 Max, M5 Pro, M5 Max). Второй — из открытых бенчмарков для более старых MacBook-чипов. Ultra и Mac Studio не рассматриваются.</p>
+
+    <h3>По данным обзора: M4 vs M5</h3>
+    <div class="how-to-read">
+      <div class="how-to-read-title">Как читать таблицу</div>
+      <ul>
+        <li><strong>Секунды</strong> — время выполнения, меньше = лучше</li>
+        <li><strong>Дорожки</strong> — треки в Logic Pro, больше = лучше</li>
+        <li><strong>Проценты</strong> — прирост относительно M4 Pro</li>
+        <li><strong>≈</strong> — оценка. Точные цифры в обзоре есть только для Xcode, DaVinci, Topaz</li>
+      </ul>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Задача</th><th>M4 Pro</th><th>M4 Max</th><th>M5 Pro</th><th>M5 Max</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Xcode</td><td class="est">≈110 с</td><td>89 с</td><td class="est">≈75 с</td><td class="hl">60 с</td></tr>
+        <tr><td class="name">Logic Pro</td><td class="est">≈50 дорожек</td><td class="est">≈100 дорожек</td><td class="est">≈90 дорожек</td><td class="hl">110 дорожек</td></tr>
+        <tr><td class="name">After Effects</td><td class="est">≈+15%</td><td class="est">≈+20%</td><td class="est">≈+20%</td><td class="hl">+22% (18/40) / +0% (18/32)</td></tr>
+        <tr><td class="name">Redshift</td><td class="est">≈−20 с</td><td class="est">≈−30 с</td><td class="hl">−40 с</td><td>−40 с</td></tr>
+        <tr><td class="name">DaVinci Resolve</td><td>+30% (M4 Pro)</td><td class="hl">+44%</td><td class="est">≈+40%</td><td class="hl">+44% (18/40) / +30% (18/32)</td></tr>
+        <tr><td class="name">Houdini Grain</td><td class="est">≈−1 мин</td><td class="est">≈−3 мин</td><td class="est">≈−5 мин</td><td class="est">≈−4 мин</td></tr>
+        <tr><td class="name">Topaz Video AI</td><td class="est">≈+8%</td><td class="est">≈+16%</td><td class="est">≈0% (на 25% медленнее M5 Max)</td><td class="hl">+16%</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note acc"><strong>Важно про источники.</strong> Данные — из авторской методики обзора («фирменный секретный ингредиент», не публичные бенчмарки). Они могут отличаться от стандартных: XcodeBenchmark даёт M5 Max ≈84 с (не 60), Logic Pro — до 604 стереодорожек на M5 Max (не 110). Разница в сценариях нагрузки.</div>
+    <div class="note acc">
+      <strong>Что это значит по обзору.</strong>
+      <ul class="note-list">
+        <li>M5 Max выигрывает в большинстве задач: Xcode, Logic Pro, After Effects, DaVinci Resolve</li>
+        <li>Xcode: 60 с против 89 с — на треть быстрее для больших проектов</li>
+        <li>Logic Pro: M5 Max всего на 10 дорожек обгоняет M4 Max — обновление спорно</li>
+        <li>DaVinci Resolve: топовый M5 Max +44%, базовый M5 Max 18/32 +30%</li>
+        <li>After Effects: базовый M5 Max уступает топовому M4 Max — важна конфигурация памяти</li>
+        <li>Topaz Video AI: M5 Pro на 25% медленнее базового M5 Max; M5 Max на 16% быстрее топового M4 Max</li>
+      </ul>
+    </div>
+
+    <h3>По данным независимых бенчмарков: более старые чипы MacBook</h3>
+    <p class="lead">Чипы, которых не было в обзоре. Только MacBook-конфигурации — Ultra и Mac Studio не рассматриваются. Источники: XcodeBenchmark, PugetBench, Logic Pro Test.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Задача</th><th>Чип</th><th>Результат</th><th>Источник</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Xcode</td><td class="name">M1 (8 ядер)</td><td class="est">≈250 с</td><td class="src">XcodeBenchmark</td></tr>
+        <tr><td class="name">Xcode</td><td class="name">M1 Max</td><td>152 с</td><td class="src">XcodeBenchmark</td></tr>
+        <tr><td class="name">Xcode</td><td class="name">M2 (8 ядер)</td><td class="est">≈184 с</td><td class="src">XcodeBenchmark</td></tr>
+        <tr><td class="name">Xcode</td><td class="name">M2 Max</td><td class="est">≈125 с</td><td class="src">XcodeBenchmark</td></tr>
+        <tr><td class="name">Xcode</td><td class="name">M3 Max</td><td class="est">≈90 с</td><td class="src">XcodeBenchmark</td></tr>
+        <tr><td class="name">Logic Pro</td><td class="name">M1 Max</td><td class="est">≈178 дорожек</td><td class="src">Logic Pro Test</td></tr>
+        <tr><td class="name">Logic Pro</td><td class="name">M3 Max</td><td class="est">≈326 дорожек</td><td class="src">Logic Pro Test</td></tr>
+        <tr><td class="name">DaVinci Resolve</td><td class="name">M3 Max</td><td>9 259</td><td class="src">PugetBench</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note acc">
+      <strong>Что это значит по независимым данным.</strong>
+      <ul class="note-list">
+        <li>Xcode: M1 → M3 Max — ускорение в ≈2,8 раза (≈250 → 90 с)</li>
+        <li>Внутри поколения M1 Pro/Max обгоняют базовый M1 в 1,6 раза (152 с против 250 с)</li>
+        <li>Logic Pro: у M3 Max ≈326 дорожек — уровень профессиональных проектов</li>
+        <li>DaVinci Resolve: M3 Max (9 259) — топ среди старых MacBook-чипов</li>
+        <li>Прирост между поколениями в Xcode значимее, чем в графике</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="llm">
+    <h2><span class="num">13</span>Локальные языковые модели</h2>
+    <p class="lead">Новая область тестов в обзоре. Три LLM локально запущены на MacBook Pro, сравнение с настольным RTX 5080/5090. Ключевой вопрос: где MacBook выигрывает, а где проигрывает.</p>
+    <div class="how-to-read">
+      <div class="how-to-read-title">Как читать таблицу</div>
+      <ul>
+        <li><strong>Скорость генерации</strong> — как быстро модель печатает ответ (токенов/с)</li>
+        <li><strong>Скорость обработки промта</strong> — как быстро модель читает промт до начала ответа</li>
+        <li>Обработка промта важна на длинных документах и в агентных сценариях</li>
+      </ul>
+    </div>
+
+    <h3>Модели и требования к памяти</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Модель</th><th>Параметры</th><th>Требует RAM</th><th>Запускается на</th></tr></thead>
+      <tbody>
+        <tr><td class="name">GPT-OS 20B</td><td>20 млрд</td><td>16 ГБ</td><td>Все MacBook с 16+ ГБ и RTX 5080/5090</td></tr>
+        <tr><td class="name">GPT-OS 120B</td><td>120 млрд (21 активных)</td><td>~80 ГБ</td><td>Только MacBook 128 ГБ (RTX не хватает VRAM)</td></tr>
+        <tr><td class="name">Quin 3 235B</td><td>235 млрд (22 активных)</td><td>110–220 ГБ</td><td>MacBook 128 ГБ на пределе возможностей</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Результаты на разных конфигурациях</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Что важно</th><th>M4 Max</th><th>M5 Max</th><th>RTX 5080/5090</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Малая модель (20B)</td><td>Работает</td><td class="hl">Работает</td><td>Быстрее MacBook в 2+ раза</td></tr>
+        <tr><td class="name">Средняя (120B)</td><td>Работает</td><td class="hl">Работает</td><td>Не хватает VRAM</td></tr>
+        <tr><td class="name">Большая (235B)</td><td>На пределе</td><td class="hl">Справляется</td><td>Не хватает VRAM</td></tr>
+        <tr><td class="name">Обработка длинных промтов</td><td>Медленно</td><td class="hl">Отлично</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="note acc">
+      <strong>Что это значит.</strong>
+      <ul class="note-list">
+        <li>На <strong>маленьких моделях (20B) RTX 5080/5090 быстрее MacBook в 2+ раза</strong></li>
+        <li>Как только модель <strong>не влезает в VRAM NVIDIA</strong> — MacBook становится безальтернативным</li>
+        <li>GPT-OS 120B требует ~80 ГБ памяти: RTX 5080 не тянет, MacBook 128 ГБ справляется</li>
+        <li>M5 Max очень хорошо обрабатывает <strong>длинные контексты</strong> — это было слабое место M4 Max</li>
+        <li>Объём памяти ≠ скорость: важен тип памяти, архитектура, скорость</li>
+        <li>Каждое GPU-ядро M5 имеет Neural Accelerator — дополнительный прирост в LLM</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="battery">
+    <h2><span class="num">14</span>Автономность</h2>
+    <p class="lead">Заявленные Apple значения и результаты независимых тестов. Условия: непрерывный веб-сёрфинг по Wi-Fi, яркость 150 нит. Только MacBook Air и MacBook Pro.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Модель</th><th>Заявленная</th><th>Шкала</th><th>Независимый тест</th><th>Источник</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Air 13" / 15" (M1–M5)</td><td>18 ч</td><td class="bar-cell"><div class="bar grn"><i style="width:75%"></i></div></td><td>14–15 ч</td><td class="src">Обзор</td></tr>
+        <tr><td class="name">Pro 14" M5</td><td>22 ч</td><td class="bar-cell"><div class="bar grn"><i style="width:92%"></i></div></td><td>—</td><td class="src">Apple</td></tr>
+        <tr><td class="name">Pro 14" / 16" M4 Pro</td><td>22 ч</td><td class="bar-cell"><div class="bar grn"><i style="width:92%"></i></div></td><td>20 ч 46 мин</td><td class="src">Обзор</td></tr>
+        <tr><td class="name">Pro 14" M5 Pro</td><td>20–22 ч</td><td class="bar-cell"><div class="bar grn"><i style="width:92%"></i></div></td><td>21 ч 10 мин</td><td class="src">Обзор</td></tr>
+        <tr><td class="name">Pro 16" M5 Pro</td><td>22–24 ч</td><td class="bar-cell"><div class="bar grn"><i style="width:100%"></i></div></td><td>—</td><td class="src">Apple</td></tr>
+        <tr><td class="name">Pro 16" M5 Max</td><td>22–24 ч</td><td class="bar-cell"><div class="bar grn"><i style="width:100%"></i></div></td><td>18,5 ч (Notebookcheck); 27 ч 18 мин (PCMag)</td><td class="src">Notebookcheck / PCMag</td></tr>
+        <tr><td class="name">Pro 14" M5 Max</td><td>20–22 ч</td><td class="bar-cell"><div class="bar grn"><i style="width:92%"></i></div></td><td>17 ч 58 мин (Tech.Yahoo)</td><td class="src">Tech.Yahoo</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note grn">
+      <strong>Что это значит.</strong>
+      <ul class="note-list">
+        <li>Автономность выросла на 1 час относительно M4: 20–22 ч для 14", 22–24 ч для 16"</li>
+        <li>Разброс независимых тестов широкий: 18,5 ч (Notebookcheck) до 27 ч (PCMag) для одной модели</li>
+        <li>Разные методики: Notebookcheck выключает фоновые процессы, PCMag держит ниже яркость</li>
+        <li>Реальные значения Air 13"/15" — 14–15 ч против заявленных 18 ч</li>
+        <li>MacBook Pro живёт дольше Air — корпус больше, батарея крупнее</li>
+        <li>Для большинства задач реальные 18–21 ч — полный рабочий день + дорога</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="weight">
+    <h2><span class="num">15</span>Вес и размеры</h2>
+    <p class="lead">Различия между поколениями минимальны — корпуса сохраняют одинаковые габариты с 2021–2022 годов.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Модель</th><th>Поколение</th><th>Вес</th><th>Толщина</th><th>Ширина</th><th>Глубина</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Air 13"</td><td>M1 (2020)</td><td>1,29 кг</td><td>1,61 см</td><td>30,41 см</td><td>21,24 см</td></tr>
+        <tr><td class="name">Air 13"</td><td>M2–M5</td><td>1,23–1,24 кг</td><td>1,13 см</td><td>30,41 см</td><td>21,50 см</td></tr>
+        <tr><td class="name">Air 15"</td><td>M2–M5</td><td>1,51 кг</td><td>1,15 см</td><td>34,04 см</td><td>23,76 см</td></tr>
+        <tr><td class="name">Pro 14"</td><td>M5</td><td>1,55 кг</td><td>1,55 см</td><td>31,26 см</td><td>22,12 см</td></tr>
+        <tr><td class="name">Pro 14"</td><td>M4 Pro / M5 Pro</td><td>1,60 кг</td><td>1,55 см</td><td>31,26 см</td><td>22,12 см</td></tr>
+        <tr><td class="name">Pro 14"</td><td>M4 Max / M5 Max</td><td>1,62 кг</td><td>1,55 см</td><td>31,26 см</td><td>22,12 см</td></tr>
+        <tr><td class="name">Pro 16"</td><td>M4 Pro / M5 Pro</td><td>2,14 кг</td><td>1,68 см</td><td>35,57 см</td><td>24,81 см</td></tr>
+        <tr><td class="name">Pro 16"</td><td>M4 Max / M5 Max</td><td>2,15 кг</td><td>1,68 см</td><td>35,57 см</td><td>24,81 см</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note grn">
+      <strong>Что это значит.</strong>
+      <ul class="note-list">
+        <li>Вес внутри одного класса не менялся за пять поколений: Air 13" — 1,23–1,24 кг, Pro 14" — 1,55–1,62 кг</li>
+        <li>Разница между Pro и Max внутри одной модели — всего 20 г (второй вентилятор)</li>
+        <li>Самое лёгкое — Air 13" M5 (1,23 кг), самое тяжёлое — Pro 16" M5 Max (2,15 кг)</li>
+        <li>Толщина Air с M2 упала с 1,61 до 1,13 см — самый заметный дизайнерский скачок</li>
+        <li>Корпуса Pro не менялись с 2021 года</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<div class="block">
+  <div class="block-header"><span class="block-num">Часть IV</span><span class="block-name">Выбор</span></div>
+
+  <section id="choose">
+    <h2><span class="num">16</span>Как выбрать конфигурацию</h2>
+    <p class="lead">Краткое руководство по выбору в зависимости от задач. С учётом авторских рекомендаций: 16" лучше 14" для нагрузки, минимум 2 ТБ SSD и 36 ГБ памяти для LLM.</p>
+    <div class="tree">
+      <div class="tree-row"><div class="tree-task">Офис, учёба, веб</div><div class="tree-arrow">→</div><div class="tree-rec">Air 13" или 15" M4 / M5</div></div>
+      <div class="tree-row"><div class="tree-task">Лёгкий монтаж, фото</div><div class="tree-arrow">→</div><div class="tree-rec">Air 15" M5 (10 GPU)</div></div>
+      <div class="tree-row"><div class="tree-task">Монтаж 4K / 6K, цветокоррекция</div><div class="tree-arrow">→</div><div class="tree-rec">Pro 16" M5 Pro (20 GPU, 24 ГБ)</div></div>
+      <div class="tree-row"><div class="tree-task">3D, LLM, 8K-видео</div><div class="tree-arrow">→</div><div class="tree-rec">Pro 16" M5 Max (40 GPU, 48 ГБ)</div></div>
+      <div class="tree-row"><div class="tree-task">Компактность + мощность</div><div class="tree-arrow">→</div><div class="tree-rec">Pro 14" M5 Pro (20 GPU, 24 ГБ)</div></div>
+      <div class="tree-row"><div class="tree-task">Локальные LLM 70B+</div><div class="tree-arrow">→</div><div class="tree-rec">Pro 16" M5 Max (40 GPU, 128 ГБ)</div></div>
+    </div>
+    <div class="note acc">
+      <strong>Авторский совет.</strong> Минимум для ресурсоёмких задач — 2 ТБ SSD и 36 ГБ объединённой памяти. Для работы под нагрузкой 16" предпочтительнее 14" — больше корпус, меньше тротлинга. Для кодинга — всегда топовый CPU. Для музыки обновляться с M4 не стоит, а с M3/M2 — стоит.
+    </div>
+  </section>
+
+  <section id="scatter">
+    <h2><span class="num">17</span>Мощность / цена</h2>
+    <p class="lead">Сводный показатель производительности — среднее между CPU и GPU в % от M1. Пунктирная линия — граница Парето.</p>
+    <div class="scatter-wrap">
+      <svg viewBox="0 0 900 540" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Диаграмма зависимости производительности от цены">
+        <text x="465" y="20" text-anchor="middle" font-size="14" font-weight="600" fill="var(--txt)">Производительность в зависимости от цены</text>
+        <text x="465" y="38" text-anchor="middle" font-size="11.5" fill="var(--txt2)">Сводный показатель: среднее CPU и GPU, % от M1</text>
+        <rect x="70" y="60" width="790" height="400" fill="var(--bg3)" rx="4"/>
+        <g stroke="var(--sep-soft)" stroke-width="1" stroke-dasharray="2 4">
+          <line x1="70" y1="160" x2="860" y2="160"/><line x1="70" y1="260" x2="860" y2="260"/>
+          <line x1="70" y1="360" x2="860" y2="360"/><line x1="70" y1="110" x2="860" y2="110"/>
+          <line x1="70" y1="210" x2="860" y2="210"/><line x1="70" y1="310" x2="860" y2="310"/>
+          <line x1="220" y1="60" x2="220" y2="460"/><line x1="415" y1="60" x2="415" y2="460"/>
+          <line x1="610" y1="60" x2="610" y2="460"/>
+        </g>
+        <line x1="70" y1="60" x2="70" y2="460" stroke="var(--txt)" stroke-width="1"/>
+        <line x1="70" y1="460" x2="860" y2="460" stroke="var(--txt)" stroke-width="1"/>
+        <g fill="var(--txt3)" font-size="11" text-anchor="end" font-variant-numeric="tabular-nums">
+          <text x="62" y="464">180%</text><text x="62" y="364">280%</text><text x="62" y="264">380%</text>
+          <text x="62" y="164">480%</text><text x="62" y="64">580%</text>
+        </g>
+        <g fill="var(--txt3)" font-size="11" text-anchor="middle" font-variant-numeric="tabular-nums">
+          <text x="70" y="478">$900</text><text x="220" y="478">$1 500</text><text x="415" y="478">$2 200</text>
+          <text x="610" y="478">$3 000</text><text x="860" y="478">$4 000</text>
+        </g>
+        <text x="465" y="510" text-anchor="middle" font-size="12" font-weight="600" fill="var(--txt)">Цена</text>
+        <polyline points="85.5,441 111.4,414.8 395.2,283.8 524.3,264.8 756.5,174.3 833.9,102.9" fill="none" stroke="var(--acc)" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.5"/>
+        <circle cx="85.5" cy="441" r="6" fill="var(--org)"/>
+        <circle cx="137.2" cy="441" r="5" fill="var(--org)" opacity="0.35"/>
+        <circle cx="111.4" cy="414.8" r="7" fill="var(--org)"/>
+        <circle cx="111.4" cy="414.8" r="11" fill="none" stroke="var(--org)" stroke-width="1" opacity="0.3"/>
+        <circle cx="163" cy="414.8" r="5" fill="var(--org)" opacity="0.35"/>
+        <circle cx="240.4" cy="414.8" r="5" fill="var(--pur)" opacity="0.35"/>
+        <circle cx="395.2" cy="283.8" r="7" fill="var(--pur)"/>
+        <circle cx="524.3" cy="264.8" r="8" fill="var(--pur)"/>
+        <circle cx="756.5" cy="174.3" r="8" fill="var(--pur)"/>
+        <circle cx="833.9" cy="102.9" r="10" fill="var(--pur)"/>
+        <circle cx="833.9" cy="102.9" r="15" fill="none" stroke="var(--pur)" stroke-width="1" opacity="0.3"/>
+        <g font-size="11" font-weight="600" fill="var(--txt)">
+          <text x="85.5" y="458" text-anchor="middle">Air 13" M4</text>
+          <text x="111.4" y="403" text-anchor="middle">Air 13" M5</text>
+          <text x="395.2" y="273" text-anchor="middle">Pro 14" M5 Pro</text>
+          <text x="524.3" y="253" text-anchor="middle">Pro 16" M5 Pro</text>
+          <text x="748" y="164" text-anchor="middle">Pro 14" M5 Max</text>
+          <text x="822" y="90" text-anchor="middle">Pro 16" M5 Max</text>
+        </g>
+        <g transform="translate(90, 82)">
+          <circle cx="0" cy="0" r="5" fill="var(--org)"/>
+          <text x="12" y="4" font-size="11.5" fill="var(--txt)">MacBook Air</text>
+          <circle cx="105" cy="0" r="5" fill="var(--pur)"/>
+          <text x="117" y="4" font-size="11.5" fill="var(--txt)">MacBook Pro</text>
+          <line x1="220" y1="0" x2="240" y2="0" stroke="var(--acc)" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.5"/>
+          <text x="248" y="4" font-size="11.5" fill="var(--txt)">Граница Парето</text>
+        </g>
+      </svg>
+    </div>
+    <div class="note acc"><strong>Как читать.</strong> Каждая точка — конфигурация: по горизонтали цена, по вертикали сводный показатель. Пунктирная линия соединяет конфигурации с наилучшим соотношением.</div>
+  </section>
+
+  <section id="compare">
+    <h2><span class="num">18</span>Сравнение двух чипов</h2>
+    <p class="lead">Выберите два чипа — таблица покажет разницу по ключевым характеристикам. Победитель в каждой строке выделяется зелёным.</p>
+    <div class="compare">
+      <div class="compare-controls">
+        <select class="compare-select" id="chip-a" aria-label="Первый чип"></select>
+        <span class="compare-vs">vs</span>
+        <select class="compare-select" id="chip-b" aria-label="Второй чип"></select>
+      </div>
+      <table class="compare-table">
+        <thead><tr><th style="width:40%">Параметр</th><th id="th-a">Чип A</th><th id="th-b">Чип B</th></tr></thead>
+        <tbody id="compare-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="matrix">
+    <h2><span class="num">19</span>Матрица «чип × задача»</h2>
+    <p class="lead">Пять категорий задач, три чипа. Чем больше точек — тем лучше подходит чип.</p>
+    <div class="table-wrap"><table class="matrix">
+      <thead><tr><th>Чип</th><th>Монтаж</th><th>Кодинг</th><th>LLM</th><th>3D / игры</th><th>Музыка</th></tr></thead>
+      <tbody>
+        <tr><td class="name">M5</td><td class="dots d3">●●●○○</td><td class="dots d3">●●●○○</td><td class="dots d1">●○○○○</td><td class="dots d2">●●○○○</td><td class="dots d3">●●●○○</td></tr>
+        <tr><td class="name">M5 Pro</td><td class="dots d4">●●●●○</td><td class="dots d4">●●●●○</td><td class="dots d2">●●○○○</td><td class="dots d3">●●●○○</td><td class="dots d4">●●●●○</td></tr>
+        <tr><td class="name">M5 Max</td><td class="dots d5">●●●●●</td><td class="dots d5">●●●●●</td><td class="dots d4">●●●●○</td><td class="dots d5">●●●●●</td><td class="dots d5">●●●●●</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="ranking">
+    <h2><span class="num">20</span>Итоговый рейтинг</h2>
+    <p class="lead">Сопоставление по критериям «мощность — стоимость — вес — тепловой режим».</p>
+    <div class="rank">
+      <div class="rc top"><div class="pos">01</div><div><div class="ttl">MacBook Air 15" M5 · 10 CPU / 10 GPU · 16 ГБ · 512 ГБ · $1,299</div><div class="desc">Оптимум для большинства: офис, учёба, лёгкий монтаж.</div></div><div class="badge">Оптимум</div></div>
+      <div class="rc"><div class="pos">02</div><div><div class="ttl">MacBook Air 13" M4 · 10 CPU / 10 GPU · 16 ГБ · 256 ГБ · $999</div><div class="desc">Самый доступный вход, максимальная портативность.</div></div><div class="badge">Бюджетный</div></div>
+      <div class="rc"><div class="pos">03</div><div><div class="ttl">MacBook Pro 16" M5 Pro · 18 CPU / 20 GPU · 24 ГБ · 1 ТБ · $2,699</div><div class="desc">Профессионалы: монтаж 4K/6K, цветокоррекция, 3D. Два вентилятора.</div></div><div class="badge">Pro / тишина</div></div>
+      <div class="rc"><div class="pos">04</div><div><div class="ttl">MacBook Pro 14" M5 Pro · 18 CPU / 16 GPU · 24 ГБ · 1 ТБ · $2,199</div><div class="desc">Те же задачи в компактном корпусе, но греется под нагрузкой.</div></div><div class="badge">Компакт</div></div>
+      <div class="rc"><div class="pos">05</div><div><div class="ttl">MacBook Pro 16" M5 Max · 18 CPU / 40 GPU · 48 ГБ · 2 ТБ · $3,899</div><div class="desc">Максимум для 8K, LLM, тяжёлого 3D и игр с RT.</div></div><div class="badge">Максимум</div></div>
+      <div class="rc"><div class="pos">06</div><div><div class="ttl">MacBook Pro 14" M5 Max · 18 CPU / 40 GPU · 36 ГБ · 2 ТБ · $3,599</div><div class="desc">Тепловой режим ограничивает потенциал чипа — не рекомендуется.</div></div><div class="badge">Ограничение</div></div>
+    </div>
+  </section>
+
+  <section id="rumors">
+    <h2><span class="num">21</span>Что дальше: слухи о следующем поколении</h2>
+    <p class="lead">По слухам, Apple представит следующее поколение MacBook уже в конце 2026 или начале 2027. Автор обзора рекомендует учитывать это при покупке сейчас.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Что ожидается</th><th>Детали</th><th>Влияние на выбор</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Техпроцесс 2 нм</td><td>Следующее поколение чипов на 2-нм техпроцессе</td><td>Ещё быстрее, ещё эффективнее</td></tr>
+        <tr><td class="name">Обновлённый дизайн</td><td>Первый редизайн MacBook Pro с 2021 года</td><td>Возможен OLED-экран</td></tr>
+        <tr><td class="name">Название «MacBook Ultra»</td><td>Слухи о новом флагмане выше M5 Max</td><td>Возможный рост цены топовой линейки</td></tr>
+        <tr><td class="name">M5 Pro / M5 Max подешевеют</td><td>После выхода нового флагмана</td><td>Смысл подождать — двойной</td></tr>
+        <tr><td class="name">Сроки: конец 2026 — начало 2027</td><td>Между M2 Pro/Max и M3 Pro/Max прошло 9 месяцев</td><td>Apple уже практиковала быструю смену поколений</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note org">
+      <strong>Что это значит.</strong>
+      <ul class="note-list">
+        <li>Если обновление не горит — есть смысл подождать нового поколения</li>
+        <li>Ожидается 2 нм, OLED, обновлённый дизайн — самые большие изменения с 2021 года</li>
+        <li>После выхода MacBook Ultra цены на M5 Pro / M5 Max могут упасть</li>
+        <li>Apple уже показывала быструю смену поколений — 9 месяцев между M2 Pro и M3 Pro</li>
+        <li>Если обновляться нужно сейчас — M5 Pro/Max всё равно лучшие Маки в истории</li>
+        <li>Обновляться стоит с M1–M3; с M4 — только под конкретную задачу</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<footer>
+  Отчёт основан на авторском обзоре M5 Pro и M5 Max (2026), официальных пресс-релизах Apple, данных независимых тестовых лабораторий (Notebookcheck, PCMag, Tech.Yahoo, XcodeBenchmark, PugetBench) и результатах синтетических бенчмарков Geekbench.<br>
+  Приведённые значения отражают усреднённые показатели. Цены — в долларах США; в рублях — по курсу 1 USD = 84 ₽ (округление до тысячи).
+</footer>
+
+</div>
+</div>
+
+<button class="back-top no-print" id="back-top" type="button" aria-label="Наверх">
+  <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<script>
+const CHIPS = {
+  'M1':                    { year:2020, cpu:8,  cpuComp:'4P + 4E',        gpu:'7–8',   bw:68,  npu:100, media:100,  gb6:8342,  gb7:27277,  cpuPct:100, gpuPct:100 },
+  'M2':                    { year:2022, cpu:8,  cpuComp:'4P + 4E',        gpu:'8–10',  bw:100, npu:140, media:130,  gb6:9709,  gb7:40529,  cpuPct:120, gpuPct:130 },
+  'M3':                    { year:2023, cpu:8,  cpuComp:'4P + 4E',        gpu:'10',    bw:100, npu:220, media:150,  gb6:12020, gb7:46033,  cpuPct:140, gpuPct:160 },
+  'M4':                    { year:2024, cpu:10, cpuComp:'4P + 6E',        gpu:'10',    bw:120, npu:320, media:200,  gb6:14731, gb7:51818,  cpuPct:200, gpuPct:200 },
+  'M5':                    { year:2025, cpu:10, cpuComp:'4P + 6E',        gpu:'10',    bw:153, npu:420, media:250,  gb6:17073, gb7:69563,  cpuPct:235, gpuPct:220 },
+  'M1 Pro':                { year:2021, cpu:10, cpuComp:'8P + 2E',        gpu:'14–16', bw:200, npu:100, media:100,  gb6:10897, gb7:63531,  cpuPct:null, gpuPct:null },
+  'M1 Max':                { year:2021, cpu:10, cpuComp:'8P + 2E',        gpu:'24–32', bw:400, npu:100, media:100,  gb6:13098, gb7:107711, cpuPct:null, gpuPct:null },
+  'M2 Pro':                { year:2023, cpu:12, cpuComp:'10P + 4E',       gpu:'16–19', bw:200, npu:140, media:130,  gb6:14880, gb7:77176,  cpuPct:null, gpuPct:null },
+  'M2 Max':                { year:2023, cpu:12, cpuComp:'12P + 4E',       gpu:'30–38', bw:400, npu:140, media:130,  gb6:14740, gb7:130091, cpuPct:null, gpuPct:null },
+  'M3 Pro':                { year:2023, cpu:12, cpuComp:'6P + 6E',        gpu:'18',    bw:150, npu:220, media:150,  gb6:15173, gb7:72637,  cpuPct:null, gpuPct:null },
+  'M3 Max':                { year:2023, cpu:16, cpuComp:'12P + 4E',       gpu:'30–40', bw:300, npu:220, media:150,  gb6:20463, gb7:146550, cpuPct:null, gpuPct:null },
+  'M4 Pro (12 CPU / 16 GPU)':{ year:2024, cpu:12, cpuComp:'8P + 4E',      gpu:'16',    bw:273, npu:320, media:900,  gb6:22490, gb7:107354, cpuPct:225, gpuPct:380 },
+  'M4 Pro (14 CPU / 20 GPU)':{ year:2024, cpu:14, cpuComp:'10P + 4E',     gpu:'20',    bw:273, npu:320, media:900,  gb6:22490, gb7:134000, cpuPct:245, gpuPct:410 },
+  'M4 Max (14 CPU / 32 GPU)':{ year:2024, cpu:14, cpuComp:'10P + 4E',     gpu:'32',    bw:410, npu:320, media:896,  gb6:25702, gb7:151000, cpuPct:270, gpuPct:630 },
+  'M4 Max (16 CPU / 40 GPU)':{ year:2024, cpu:16, cpuComp:'12P + 4E',     gpu:'40',    bw:546, npu:320, media:896,  gb6:25702, gb7:189301, cpuPct:295, gpuPct:780 },
+  'M5 Pro (18 CPU / 16 GPU)':{ year:2026, cpu:18, cpuComp:'6 super + 12 perf', gpu:'16', bw:307, npu:420, media:1120, gb6:28111, gb7:105000, cpuPct:300, gpuPct:411 },
+  'M5 Pro (18 CPU / 20 GPU)':{ year:2026, cpu:18, cpuComp:'6 super + 12 perf', gpu:'20', bw:307, npu:420, media:1120, gb6:28111, gb7:130896, cpuPct:311, gpuPct:460 },
+  'M5 Max (18 CPU / 32 GPU)':{ year:2026, cpu:18, cpuComp:'6 super + 12 perf', gpu:'32', bw:460, npu:420, media:1120, gb6:29233, gb7:180000, cpuPct:337, gpuPct:629 },
+  'M5 Max (18 CPU / 40 GPU)':{ year:2026, cpu:18, cpuComp:'6 super + 12 perf', gpu:'40', bw:614, npu:420, media:1120, gb6:29233, gb7:225606, cpuPct:337, gpuPct:776 }
+};
+
+(function(){
+  const wrap = document.getElementById('nav-current');
+  const btn = document.getElementById('nav-current-btn');
+  const part = document.getElementById('nav-current-part');
+  const name = document.getElementById('nav-current-name');
+  const menu = document.getElementById('nav-menu');
+  const progress = document.getElementById('nav-progress');
+
+  const SECTIONS = [
+    { id:'models', num:'01', title:'Актуальные модели', part:'Часть I' },
+    { id:'timeline', num:'02', title:'Хронология поколений', part:'Часть I' },
+    { id:'params', num:'03', title:'Что означают параметры', part:'Часть I' },
+    { id:'features', num:'04', title:'Новые фичи', part:'Часть I' },
+    { id:'cpu', num:'05', title:'Процессор (CPU)', part:'Часть II' },
+    { id:'gpu', num:'06', title:'Графика и игры', part:'Часть II' },
+    { id:'bandwidth', num:'07', title:'Пропускная способность памяти', part:'Часть II' },
+    { id:'npu', num:'08', title:'Нейронный движок и медиадвижки', part:'Часть II' },
+    { id:'ssd', num:'09', title:'Накопитель', part:'Часть II' },
+    { id:'fusion', num:'10', title:'Архитектура Fusion', part:'Часть II' },
+    { id:'prices', num:'11', title:'История цен 2020–2026', part:'Часть III' },
+    { id:'tasks', num:'12', title:'Производительность в приложениях', part:'Часть III' },
+    { id:'llm', num:'13', title:'Локальные языковые модели', part:'Часть III' },
+    { id:'battery', num:'14', title:'Автономность', part:'Часть III' },
+    { id:'weight', num:'15', title:'Вес и размеры', part:'Часть III' },
+    { id:'choose', num:'16', title:'Как выбрать', part:'Часть IV' },
+    { id:'scatter', num:'17', title:'Мощность / цена', part:'Часть IV' },
+    { id:'compare', num:'18', title:'Сравнение двух чипов', part:'Часть IV' },
+    { id:'matrix', num:'19', title:'Матрица', part:'Часть IV' },
+    { id:'ranking', num:'20', title:'Итоговый рейтинг', part:'Часть IV' },
+    { id:'rumors', num:'21', title:'Что дальше: слухи', part:'Часть IV' }
+  ];
+
+  if (btn){
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const open = wrap.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    document.addEventListener('click', e => {
+      if (!wrap.contains(e.target)) {
+        wrap.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        wrap.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+    menu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        wrap.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
+  const sidebarLinks = document.querySelectorAll('.sb-link');
+  let scheduled = false;
+
+  function updateActive(){
+    if (scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(() => {
+      const threshold = window.scrollY + 160;
+      let current = null;
+      for (const s of SECTIONS){
+        const el = document.getElementById(s.id);
+        if (el && el.offsetTop <= threshold) current = s;
+      }
+
+      if (current){
+        if (part) part.textContent = current.part;
+        if (name) name.textContent = current.num + ' · ' + current.title;
+        if (menu) menu.querySelectorAll('a').forEach(a => {
+          const id = a.getAttribute('href').slice(1);
+          a.classList.toggle('active', id === current.id);
+        });
+        sidebarLinks.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + current.id);
+        });
+      } else {
+        if (part) part.textContent = 'Начало';
+        if (name) name.textContent = 'Apple Silicon M1 → M5';
+        if (menu) menu.querySelectorAll('a').forEach(a => a.classList.remove('active'));
+        sidebarLinks.forEach(a => a.classList.remove('active'));
+      }
+
+      if (progress){
+        const doc = document.documentElement;
+        const max = doc.scrollHeight - window.innerHeight;
+        const pct = max > 0 ? Math.min(100, Math.max(0, (window.scrollY / max) * 100)) : 0;
+        progress.style.width = pct + '%';
+      }
+
+      scheduled = false;
+    });
+  }
+  window.addEventListener('scroll', updateActive, {passive:true});
+  window.addEventListener('resize', updateActive);
+  updateActive();
+})();
+
+(function(){
+  const wrap = document.getElementById('export-wrap');
+  const btn = document.getElementById('btn-export');
+  const menu = document.getElementById('export-menu');
+  if (!btn || !wrap) return;
+
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const open = wrap.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.addEventListener('click', e => {
+    if (!wrap.contains(e.target)) {
+      wrap.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      wrap.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  });
+  menu.querySelectorAll('.export-item').forEach(item => {
+    item.addEventListener('click', () => {
+      wrap.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    });
+  });
+})();
+
+(function(){
+  const btn = document.getElementById('back-top');
+  let scheduled = false;
+  function onScroll(){
+    if (scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(() => {
+      btn.classList.toggle('visible', window.scrollY > 500);
+      scheduled = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  onScroll();
+})();
+
+(function(){
+  const selA = document.getElementById('chip-a');
+  const selB = document.getElementById('chip-b');
+  const thA = document.getElementById('th-a');
+  const thB = document.getElementById('th-b');
+  const body = document.getElementById('compare-body');
+
+  Object.keys(CHIPS).forEach(k => {
+    selA.add(new Option(k, k));
+    selB.add(new Option(k, k));
+  });
+  selA.value = 'M5 Pro (18 CPU / 20 GPU)';
+  selB.value = 'M4 Max (16 CPU / 40 GPU)';
+
+  const ROWS = [
+    { label:'Год выпуска',        get:c => c.year,    higherBetter:true,  fmt:v => v },
+    { label:'Ядра CPU',           get:c => c.cpu,     higherBetter:true,  fmt:v => v },
+    { label:'Состав CPU',         get:c => c.cpuComp, higherBetter:null,  fmt:v => v },
+    { label:'Ядра GPU',           get:c => parseInt(String(c.gpu).replace(/[^\d]/g,''),10), higherBetter:true, fmt:v => v },
+    { label:'Пропускная способность, ГБ/с', get:c => c.bw, higherBetter:true, fmt:v => v },
+    { label:'NPU, % от M1',       get:c => c.npu,     higherBetter:true,  fmt:v => v + '%' },
+    { label:'Медиа, % от M1',     get:c => c.media,   higherBetter:true,  fmt:v => v + '%' },
+    { label:'Geekbench 6 MC',     get:c => c.gb6,     higherBetter:true,  fmt:v => v ?? '—' },
+    { label:'Geekbench 7 Metal',  get:c => c.gb7,     higherBetter:true,  fmt:v => v ?? '—' },
+    { label:'CPU, % от M1',       get:c => c.cpuPct,  higherBetter:true,  fmt:v => v + '%' },
+    { label:'GPU, % от M1',       get:c => c.gpuPct,  higherBetter:true,  fmt:v => v + '%' }
+  ];
+
+  function render(){
+    const a = CHIPS[selA.value];
+    const b = CHIPS[selB.value];
+    thA.textContent = selA.value;
+    thB.textContent = selB.value;
+    body.innerHTML = '';
+    ROWS.forEach(row => {
+      const va = row.get(a);
+      const vb = row.get(b);
+      const tr = document.createElement('tr');
+      const tdL = document.createElement('td');
+      tdL.className = 'param';
+      tdL.textContent = row.label;
+      const tdA = document.createElement('td');
+      const tdB = document.createElement('td');
+      tdA.textContent = row.fmt(va);
+      tdB.textContent = row.fmt(vb);
+      if (row.higherBetter === true && va != null && vb != null && !isNaN(va) && !isNaN(vb)){
+        if (va > vb){ tdA.className = 'win'; tdB.className = 'lose'; }
+        else if (vb > va){ tdB.className = 'win'; tdA.className = 'lose'; }
+        else { tdA.className = 'equal'; tdB.className = 'equal'; }
+      } else if (row.higherBetter === null){
+        tdA.className = 'equal'; tdB.className = 'equal';
+      }
+      tr.appendChild(tdL); tr.appendChild(tdA); tr.appendChild(tdB);
+      body.appendChild(tr);
+    });
+  }
+  selA.addEventListener('change', render);
+  selB.addEventListener('change', render);
+  render();
+})();
+
+function downloadCSV(filename, rows){
+  const csv = rows.map(r =>
+    r.map(cell => {
+      const s = String(cell ?? '');
+      return /[",\n;]/.test(s) ? '"' + s.replace(/"/g,'""') + '"' : s;
+    }).join(',')
+  ).join('\r\n');
+  const blob = new Blob(['\ufeff' + csv], { type:'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById('btn-csv').addEventListener('click', () => {
+  const a = document.getElementById('chip-a').value;
+  const b = document.getElementById('chip-b').value;
+  const rows = [['Параметр', a, b]];
+  const ROWS = [
+    ['Год выпуска', c => c.year],
+    ['Ядра CPU', c => c.cpu],
+    ['Состав CPU', c => c.cpuComp],
+    ['Ядра GPU', c => c.gpu],
+    ['Пропускная способность, ГБ/с', c => c.bw],
+    ['NPU, % от M1', c => c.npu + '%'],
+    ['Медиа, % от M1', c => c.media + '%'],
+    ['Geekbench 6 MC', c => c.gb6 ?? '—'],
+    ['Geekbench 7 Metal', c => c.gb7 ?? '—'],
+    ['CPU, % от M1', c => c.cpuPct + '%'],
+    ['GPU, % от M1', c => c.gpuPct + '%']
+  ];
+  ROWS.forEach(([label, get]) => {
+    rows.push([label, get(CHIPS[a]), get(CHIPS[b])]);
+  });
+  downloadCSV('apple-silicon-compare.csv', rows);
+});
+
+document.getElementById('btn-csv-full').addEventListener('click', () => {
+  const rows = [[
+    'Чип','Год','Ядра CPU','Состав CPU','Ядра GPU',
+    'Пропускная способность, ГБ/с','NPU %','Медиа %',
+    'Geekbench 6 MC','Geekbench 7 Metal','CPU % от M1','GPU % от M1'
+  ]];
+  Object.entries(CHIPS).forEach(([name, c]) => {
+    rows.push([
+      name, c.year, c.cpu, c.cpuComp, c.gpu, c.bw,
+      c.npu, c.media, c.gb6 ?? '—', c.gb7 ?? '—',
+      c.cpuPct, c.gpuPct
+    ]);
+  });
+  downloadCSV('apple-silicon-all-chips.csv', rows);
+});
+
+document.getElementById('btn-pdf').addEventListener('click', () => window.print());
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href');
+    if (id.length > 1){
+      const target = document.querySelector(id);
+      if (target){
+        e.preventDefault();
+        target.scrollIntoView({ behavior:'smooth', block:'start' });
+        history.replaceState(null, '', id);
+      }
+    }
+  });
+});
+</script>
+</body>
+</html>
